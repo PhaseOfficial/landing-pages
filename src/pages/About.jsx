@@ -2,15 +2,17 @@ import React from 'react'
 import Navbar from '../components/Navbar';
 import Footer from '../components/footer';
 import { motion } from 'framer-motion';
+import Contactus from '../components/Contactus';
 
 export const About = () => {
   return (
-    <div>
+<div> <div>
     <Navbar />
     <div>
-    <div className="bg-gray-50 text-gray-800">
+    <div className="bg-cover bg-center h-screen text-gray-800" >
       {/* Hero Section */}
-      <section className="bg-gray-500 text-white py-16">
+      <section className="bg-cover mt-10 text-grey-800 py-16" style={{ backgroundImage: `url('/src/assets/background.png')` }}>
+      
         <div className="container mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold">About Us</h1>
           <p className="mt-4 text-lg md:text-xl">
@@ -22,14 +24,34 @@ export const About = () => {
 
       {/* Company Description */}
       <section className="py-12">
-        <div className="container mx-auto px-6 md:px-12">
+      <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+      className="text-black p-6 rounded-lg shadow-lg my-8"
+    >
+      <div className="container mx-auto px-6 md:px-12">
           <h2 className="text-3xl font-bold text-center mb-8">Our Story</h2>
           <p className="text-lg leading-relaxed text-center md:text-left">
-            Our company was founded with a vision to provide exceptional services 
-            and create innovative solutions. We are passionate about delivering 
-            quality and value to our clients and making a positive impact on the world.
+          At <span className="text-red-500">Red Cup Series</span>, a name derived from party solo cups to associate the brand with <span className="text-red-500">free and happy vibes</span> we believe technology is more than a tool—it's a <span className="text-red-500">lifestyle</span>. Founded with a vision to improve livelihoods, we combine <span className="text-red-500">cutting-edge innovation </span>with everyday essentials, creating a unique blend of <span className="text-red-500">technology and lifestyle products</span> that enrich lives and empower communities.
+
+From stylish, <span className="text-red-500">high-quality clothing</span> like T-shirts to advanced <span className="text-red-500">technological devices</span>, we source and deliver only the best the market has to offer. But we don't stop there—we're passionate about <span className="text-red-500">collaboration</span>. By partnering with brands, we help them bring their ideas to life through <span className="text-red-500">creative design, development, and tailored solutions</span>.
+
+Our expertise spans multiple disciplines, including app development, AI and data science solutions, website creation, and graphic design. Over the years, we've launched software applications that address daily challenges, making life simpler and more efficient for our customers.
+
+<span className="text-red-500">Innovation, quality, and collaboration are at the heart of everything we do</span>. Whether it's designing a new app, crafting a graphic masterpiece, or curating products that enhance your lifestyle, we are dedicated to creating solutions that make a difference.
+
+Join us on this journey as we continue to shape a world where technology and lifestyle meet seamlessly. Together, let's build a brighter future. <span className="text-yellow-500">Mindset is Everything.</span>
           </p>
+          <h2 className="text-3xl font-bold text-center mb-8 mt-8">Our Mission</h2>
+          <p className="text-lg leading-relaxed text-center md:text-left">
+          To enhance livelihoods by delivering innovative, high-quality technology and lifestyle solutions that empower individuals and businesses to thrive in a rapidly evolving world
+          </p>
+          <h2 className="text-3xl font-bold text-center mb-8 mt-8">Our Vision</h2>
+          <p className="text-lg leading-relaxed text-center md:text-left">
+          To become a global leader in seamlessly integrating technology and lifestyle, fostering creativity, collaboration, and sustainable growth for communities and brands alike.</p>
         </div>
+    </motion.div>
       </section>
 
       {/* Team Section */}
@@ -70,22 +92,15 @@ export const About = () => {
           </div>
         </div>
       </section>
+      <Contactus className="mt-20"/>
+   <Footer className="mb-10"/>
+    </div>
+    </div>
+    
+    </div>
 
-      {/* Contact Section */}
-      <section className="py-12">
-        <div className="container mx-auto px-6 md:px-12">
-          <h2 className="text-3xl font-bold text-center mb-8">Contact Us</h2>
-          <p className="text-center text-lg">
-            Have questions or want to work with us? Reach out at{' '}
-            <a href="mailto:info@example.com" className="text-blue-600 underline">
-              info@example.com
-            </a>
-          </p>
-        </div>
-      </section>
     </div>
-    </div>
-    <Footer />
-    </div>
+   
+    
   )
 }
