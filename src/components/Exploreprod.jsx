@@ -7,6 +7,7 @@ import { FaCartShopping } from "react-icons/fa6";
 import { GiRollingDiceCup } from "react-icons/gi";
 import { FcCollaboration } from "react-icons/fc";
 import { LiaPeopleCarrySolid } from "react-icons/lia";
+import BeholdWidget from './BeholdWidget';
 
 
 const Exploreprod = () => {
@@ -35,6 +36,7 @@ const Exploreprod = () => {
       
     </div>
     <hr className="border-t-2 border-black my-6 mt-10" />
+    <BeholdWidget />
     <h2 className="text-red-800 font-bold mb-4 text-2xl mt-20">Explore More</h2>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div className="bg-card rounded-lg shadow-lg overflow-hidden flex flex-col items-center">

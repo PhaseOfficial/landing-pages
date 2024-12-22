@@ -1,7 +1,7 @@
 import HeroSection from '../components/HeroSection';
 import Navbar from '../components/Navbar';
 import Explore from '../components/Exploreprod';
-import '../app.css';
+import '../App.css';
 import Contactus from '../components/Contactus';
 import Footer from '../components/footer';
 import Companies from '../components/companies';

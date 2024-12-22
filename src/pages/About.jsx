@@ -3,6 +3,10 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/footer';
 import { motion } from 'framer-motion';
 import Contactus from '../components/Contactus';
+import PAmhonde from '../assets/pamhonde.png';
+import Cvutete from '../assets/cvutete.png';
+import Cchadiwa from '../assets/cchadiwa.png';
+import { FaLinkedin } from "react-icons/fa";
 
 export const About = () => {
   return (
@@ -55,43 +59,67 @@ Join us on this journey as we continue to shape a world where technology and lif
       </section>
 
       {/* Team Section */}
-      <section className="py-12 bg-gray-100">
-        <div className="container mx-auto px-6 md:px-12">
-          <h2 className="text-3xl font-bold text-center mb-8">Meet the Team</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Team Member 1 */}
-            <div className="text-center">
-              <img
-                src="https://via.placeholder.com/150"
-                alt="Team Member"
-                className="mx-auto rounded-full w-32 h-32 mb-4"
-              />
-              <h3 className="text-xl font-bold">Jane Doe</h3>
-              <p className="text-gray-600">CEO</p>
-            </div>
-            {/* Team Member 2 */}
-            <div className="text-center">
-              <img
-                src="https://via.placeholder.com/150"
-                alt="Team Member"
-                className="mx-auto rounded-full w-32 h-32 mb-4"
-              />
-              <h3 className="text-xl font-bold">John Smith</h3>
-              <p className="text-gray-600">CTO</p>
-            </div>
-            {/* Team Member 3 */}
-            <div className="text-center">
-              <img
-                src="https://via.placeholder.com/150"
-                alt="Team Member"
-                className="mx-auto rounded-full w-32 h-32 mb-4"
-              />
-              <h3 className="text-xl font-bold">Alice Brown</h3>
-              <p className="text-gray-600">Designer</p>
-            </div>
-          </div>
-        </div>
-      </section>
+<section className="py-12 bg-gray-100">
+  <div className="container mx-auto px-6 md:px-12">
+    <h2 className="text-3xl font-bold text-center mb-8">Meet the Team</h2>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* Team Member 1 */}
+      <div className="text-center">
+        <img
+          src={PAmhonde}
+          alt="Team Member"
+          className="mx-auto rounded-full h-32 mb-4"
+        />
+        <h3 className="text-xl font-bold">Arthur Mhonde</h3>
+        <p className="text-gray-600">CEO</p>
+        <a
+          href="https://www.linkedin.com/in/panashe-arthur-mhonde-2917b6261/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:text-blue-800 mt-2 inline-block"
+        >
+          <FaLinkedin size={24} />
+        </a>
+      </div>
+      {/* Team Member 2 */}
+      <div className="text-center">
+        <img
+          src={Cvutete}
+          alt="Team Member"
+          className="mx-auto rounded-full h-32 mb-4"
+        />
+        <h3 className="text-xl font-bold">Christopher Vutete</h3>
+        <p className="text-gray-600">Managing Director</p>
+        <a
+          href="https://www.linkedin.com/in/christopher-vutete-603b8166/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:text-blue-800 mt-2 inline-block"
+        >
+          <FaLinkedin size={24} />
+        </a>
+      </div>
+      {/* Team Member 3 */}
+      <div className="text-center">
+        <img
+          src={Cchadiwa}
+          alt="Team Member"
+          className="mx-auto rounded-full h-32 mb-4"
+        />
+        <h3 className="text-xl font-bold">Craig Chadiwa</h3>
+        <p className="text-gray-600">CTO</p>
+        <a
+          href="https://www.linkedin.com/in/craig-chadiwa-16485724a/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:text-blue-800 mt-2 inline-block"
+        >
+          <FaLinkedin size={24} />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
       <Contactus className="mt-20"/>
    <Footer className="mb-10"/>
     </div>
