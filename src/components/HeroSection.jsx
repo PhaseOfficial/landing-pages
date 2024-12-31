@@ -6,6 +6,7 @@ import d4 from '../assets/d4.png';
 import d5 from '../assets/d5.png';
 import d6 from '../assets/d6.png';
 import d7 from '../assets/d7.png';
+import d8 from '../assets/d8.png';
 import d26 from '../assets/d26.png';
 import d27 from '../assets/d27.png';
 import weblogo from '../assets/d10.png';
@@ -14,7 +15,7 @@ export default function HeroSection() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     // Array of imported images for the slideshow
-    const images = [d1, d2, d3, d4, d5, d6, d7, d26, d27];
+    const images = [d1, d2, d3, d4, d5, d6, d7,d8, d26, d27];
 
     // Automatically update current image index every 3 seconds
     useEffect(() => {

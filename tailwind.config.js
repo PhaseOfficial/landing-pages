@@ -10,7 +10,25 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [ plugin(function ({ addUtilities }) {
+    addUtilities({
+      '.text-shadow-sm': {
+        textShadow: '1px 1px 2px rgb(252, 251, 251)',
+      },
+      '.text-shadow-md': {
+        textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+      },
+      '.text-shadow-lg': {
+        textShadow: '4px 4px 6px rgba(0, 0, 0, 0.5)',
+      },
+      '.text-shadow-xl': {
+        textShadow: '6px 6px 8px rgba(0, 0, 0, 0.5)',
+      },
+      '.text-shadow-none': {
+        textShadow: 'none',
+      },
+    });
+  }),
 }
 
  
