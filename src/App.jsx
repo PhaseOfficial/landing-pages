@@ -8,7 +8,7 @@ import { Services } from './pages/Services';
 
 function App() {
   return (
-    <Router>
+    <Router basename='/landing-pages'>
     <div className="p-4">
         <Routes>
             <Route path="/" element={<Home />} />
