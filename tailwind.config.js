@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
+import plugin from 'tailwindcss/plugin';
+
 export default {
-  content: [ "./src/**/*.{js,jsx,ts,tsx}",],
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -10,25 +12,16 @@ export default {
       },
     },
   },
-  plugins: [ plugin(function ({ addUtilities }) {
-    addUtilities({
-      '.text-shadow-sm': {
-        textShadow: '1px 1px 2px rgb(252, 251, 251)',
-      },
-      '.text-shadow-md': {
-        textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
-      },
-      '.text-shadow-lg': {
-        textShadow: '4px 4px 6px rgba(0, 0, 0, 0.5)',
-      },
-      '.text-shadow-xl': {
-        textShadow: '6px 6px 8px rgba(0, 0, 0, 0.5)',
-      },
-      '.text-shadow-none': {
-        textShadow: 'none',
-      },
-    });
-  }),
-}
-
- 
+  plugins: [
+    plugin(function ({ addUtilities }) {
+      // Example custom utility
+      addUtilities({
+        '.custom-utility': {
+          display: 'inline-block',
+          padding: '0.5rem',
+          backgroundColor: '#1b2121',
+        },
+      });
+    }),
+  ],
+};
