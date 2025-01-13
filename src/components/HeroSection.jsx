@@ -31,7 +31,7 @@ export default function HeroSection() {
             <div className="md:w-1/2 p-8">
             <h1 className="text-4xl font-bold mb-4"><img src={weblogo} alt='logo' className='logo-home'/></h1>
             <div>
-            <p className="text-4xl mb-4 font-black typewriter-text">Where Quality is Priority</p>
+            <p className="text-4xl mb-4 font-bold text-transparent bg-clip-text bg-gradient-to-r from-black to-purple-600 font-montserrat typewriter-text">Where Quality is Priority</p>
             </div>
             <div>
             <a href="#"   className="bg-primary text-primary-foreground hover:bg-primary/80 py-2 px-4 rounded-lg transition-colors duration-300">

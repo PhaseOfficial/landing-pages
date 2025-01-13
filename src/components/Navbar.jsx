@@ -17,6 +17,7 @@ export default function Navbar() {
                     <a href="/Services" className="hover:text-white">Services</a>
                     <a href="/About" className="hover:text-white">About</a>
                     <a href="#contact" className="hover:text-white">Contact</a>
+                    <a href="#STEM" className="hover:text-white">Children STEM Books</a>
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -37,6 +38,7 @@ export default function Navbar() {
                     <a href="#services" className="block px-4 py-2 hover:bg-white/70">Services</a>
                     <a href="/About" className="block px-4 py-2 hover:bg-white/70">About</a>
                     <a href="#contact" className="block px-4 py-2 hover:bg-white/70">Contact</a>
+                    <a href="#STEM" className="block px-4 py-2 hover:bg-white/70">Children STEM Books</a>
                 </div>
             )}
         </nav>

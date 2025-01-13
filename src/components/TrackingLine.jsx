@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import trackingImage from '../assets/rcs.png';
 
 const TrackingLine = () => {
     const [scrollY, setScrollY] = useState(0);
@@ -14,11 +15,16 @@ const TrackingLine = () => {
 
     return (
         <div className="fixed left-8 top-0 h-full w-1 bg-gray-300">
-            <div
-                className="w-4 h-4 bg-gray-800 rounded-full absolute"
-                style={{ transform: `translateY(${scrollY * 0.5}px)` }}
-            ></div>
-        </div>
+        <img
+            src={trackingImage}
+            alt="Tracking icon"
+            className="w-8 h-8 absolute z-50"
+            style={{
+                top: 0,
+                transform: `translateY(${scrollY * 0.2}px)`,
+            }}
+        />
+    </div>
     );
 };
 
