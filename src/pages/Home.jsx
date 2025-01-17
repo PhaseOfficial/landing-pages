@@ -15,7 +15,7 @@ export default function Home() {
             <HeroSection className="mt-20"/>
             <Explore className="mt-20"/>
             <Companies className="mt-20"/>
-            <Contactus className="mt-20"/>
+            <Contactus className="mt-20" id="contact"/>
             <Footer className="mt-20"/>
 
         </div>
