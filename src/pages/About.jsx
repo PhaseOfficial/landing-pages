@@ -1,8 +1,8 @@
 import React from 'react'
-import Navbar from '../../src/components/Navbar';
-import Footer from '../../src/components/footer';
+import Navbar from '../components/Navbar';
+import Footer from '../components/footer';
 import { motion } from 'framer-motion';
-import Contactus from '../../src/components/Contactus';
+import Contactus from '../components/Contactus';
 import PAmhonde from '../assets/pamhonde.png';
 import Cvutete from '../assets/cvutete.png';
 import Cchadiwa from '../assets/cchadiwa.png';

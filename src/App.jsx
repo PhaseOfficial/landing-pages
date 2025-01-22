@@ -1,8 +1,9 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "../public/pages/Home";
-import About from "../public/pages/About";
-import Services from "../public/pages/Services";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Services from "./pages/Services";
+import './App.css';
 
 const App = () => {
   return (

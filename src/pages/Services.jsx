@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import ParallaxSection from '../../src/components/ParallaxSection';
-import TrackingLine from '../../src/components/TrackingLine';
-import RevealSection from '../../src/components/RevealSection';
-import Navbar from '../../src/components/Navbar';
-import Footer from '../../src/components/footer';
-import ServicesMarquee from '../../src/components/servicesmarquee';
+import ParallaxSection from '../components/ParallaxSection';
+import TrackingLine from '../components/TrackingLine';
+import RevealSection from '../components/RevealSection';
+import Navbar from '../components/Navbar';
+import Footer from '../components/footer';
+import ServicesMarquee from '../components/servicesmarquee';
 import backgroundImage from '../assets/background.png';
 import backgroundImageblk from '../assets/backgroundblk.png';
 
