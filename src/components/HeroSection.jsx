@@ -29,7 +29,7 @@ export default function HeroSection() {
     return (
         <section className="relative flex flex-col ma md:flex-row items-center mb-20 justify-center min-h-screen-0 bg-background text-primary pb-12 ">
             <div className="md:w-1/2 p-8">
-            <h1 className="text-4xl font-bold mb-4"><img src={weblogo} alt='logo' className='logo-home'/></h1>
+            <h1 className="mb-4"><img src={weblogo} alt='logo' className='logo-home'/></h1>
             <div>
             <p className="text-4xl mb-4 font-bold text-transparent bg-clip-text bg-gradient-to-r from-black to-purple-600 font-montserrat typewriter-text">Where Quality is Priority</p>
             </div>

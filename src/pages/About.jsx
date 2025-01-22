@@ -6,6 +6,7 @@ import Contactus from '../components/Contactus';
 import PAmhonde from '../assets/pamhonde.png';
 import Cvutete from '../assets/cvutete.png';
 import Cchadiwa from '../assets/cchadiwa.png';
+import gowani from '../assets/gowani.jpg'
 import { FaLinkedin } from "react-icons/fa";
 
 export const About = () => {
@@ -18,10 +19,10 @@ export const About = () => {
       <section className="bg-cover mt-10 text-grey-800 py-16" style={{ backgroundImage: `url('/src/assets/background.png')` }}>
       
         <div className="container mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold">About Us</h1>
+          <h1 className="text-4xl text-5xl font-bold">About Us</h1>
           <p className="mt-4 text-lg md:text-xl">
             We believe 
-          </p><p className="text-4xl mb-4 font-black typewriter-text">Mindset is Everything</p>
+          </p><p className="text-4xl md:text-xl mb-4 font-black ">Mindset is Everything</p>
         </div>
         
       </section>
@@ -110,6 +111,24 @@ Join us on this journey as we continue to shape a world where technology and lif
         <p className="text-gray-600">CTO</p>
         <a
           href="https://www.linkedin.com/in/craig-chadiwa-16485724a/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:text-blue-800 mt-2 inline-block"
+        >
+          <FaLinkedin size={24} />
+        </a>
+      </div>
+       {/* Team Member 3 */}
+       <div className="text-center">
+        <img
+          src={gowani}
+          alt="Team Member"
+          className="mx-auto rounded-full h-32 mb-4"
+        />
+        <h3 className="text-xl font-bold">Gamuchirai Gowani</h3>
+        <p className="text-gray-600">Head of Marketing</p>
+        <a
+          href="https://www.linkedin.com/in/"
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-600 hover:text-blue-800 mt-2 inline-block"
