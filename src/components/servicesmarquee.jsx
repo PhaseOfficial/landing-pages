@@ -2,16 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
-const services = [
-  { name: 'Website Development', image: '/src/assets/development.jpeg' },
-  { name: 'AI, ML & Data Science Solutions', image: '/src/assets/AIandML.jpeg' },
-  { name: 'Mobile App Development', image: '/src/assets/development.jpeg' },
-  { name: 'Fashion Graphic Design', image: '/src/assets/GRAPHdesign.png' },
-  { name: 'General Graphics Design', image: '/src/assets/graphicsDesign.png' },
-  { name: 'Digital Marketing', image: '/src/assets/digitalMarketing.jpeg' },
-  { name: 'Product fix and Supply', image: '/src/assets/product.jpeg' },
-];
+// Import images explicitly
+import DevelopmentImage from '../assets/development.jpeg';
+import AIandMLImage from '../assets/AIandML.jpeg';
+import MobileAppImage from '../assets/development.jpeg';
+import FashionGraphicDesignImage from '../assets/GRAPHdesign.png';
+import GeneralGraphicsDesignImage from '../assets/graphicsDesign.png';
+import DigitalMarketingImage from '../assets/digitalMarketing.jpeg';
+import ProductFixAndSupplyImage from '../assets/product.jpeg';
 
+// Define services array
+const services = [
+  { name: 'Website Development', image: DevelopmentImage },
+  { name: 'AI, ML & Data Science Solutions', image: AIandMLImage },
+  { name: 'Mobile App Development', image: MobileAppImage },
+  { name: 'Fashion Graphic Design', image: FashionGraphicDesignImage },
+  { name: 'General Graphics Design', image: GeneralGraphicsDesignImage },
+  { name: 'Digital Marketing', image: DigitalMarketingImage },
+  { name: 'Product Fix and Supply', image: ProductFixAndSupplyImage },
+];
 const ServicesMarquee = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMoving, setIsMoving] = useState(false);

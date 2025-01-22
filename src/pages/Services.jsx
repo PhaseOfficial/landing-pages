@@ -5,9 +5,12 @@ import RevealSection from '../components/RevealSection';
 import Navbar from '../components/Navbar';
 import Footer from '../components/footer';
 import ServicesMarquee from '../components/servicesmarquee';
+import backgroundImage from '../assets/background.png';
+import backgroundImageblk from '../assets/backgroundblk.png';
 
 
-export const Services = () => {
+
+const Services = () => {
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -32,8 +35,92 @@ export const Services = () => {
                 </div>
             </ParallaxSection>
             <div className="space-y-16 p-8">
+            <RevealSection>
+            <div
+  className="flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8"
+  style={{ backgroundImage: `url(${backgroundImage})` }}
+>
+                    <section className="bg-white py-16 px-8">
+                    <h1 className="text-6xl lg:text-8xl font-bold text-black mb-6">
+          Creating Mobile Apps That Empower and Engage
+          </h1>
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
+        {/* Text Content 7*/}
+        <div className="lg:w-1/2">
+          
+          <p className="text-lg text-gray-700 mb-6">
+          We design and develop mobile apps that are as powerful as they are user-friendly. 
+          Whether you need a sleek, intuitive app for your business, a dynamic e-commerce platform,
+           or a custom solution tailored to your needs, we turn your ideas into a seamless mobile 
+           experience. Your app is more than just a tool—it's a bridge to your customers, your 
+           business, and your success.
+          </p>
+          <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
+            Get started
+          </button>
+        </div>
+
+        {/* Image Content */}
+        <div className="lg:w-1/2">
+          <img
+            src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHNoeXd6ZnZtbmd5NzJsaTQ5ZTllMzNpeDF1dzFwdGwyYzl0MnN3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/JPgbfjx4d2sAAkQabX/giphy.webp" // Replace with your image path
+            alt="Webflow design interface"
+            className="w-full rounded-lg shadow-lg"
+          />
+        </div>
+      </div>
+
+      {/* Features Section */}
+      <div className="max-w-7xl mx-auto mt-12 text-gray-800">
+      <ul className="space-y-8">
+          <li>
+            <strong className="block text-lg font-semibold cursor-pointer" onClick={toggleContent}>Need an app that stands out?</strong>
+            {isExpanded && (
+            <p className="mt-2 text-gray-400">
+            Our designs are tailored to create an app experience that reflects your brand’s identity and engages users.
+            </p>
+            )}
+          </li>
+          <li>
+            <strong className="block text-lg font-semibold cursor-pointer"onClick={toggleContent}>
+            Looking for smooth performance?
+            </strong>
+            {isExpanded && (
+            <p className="mt-2 text-gray-400">
+            We build apps that are fast, responsive, and optimized for both iOS and Android devices.
+            </p>
+            )}
+          </li>
+          <li>
+            <strong className="block text-lg font-semibold cursor-pointer" onClick={toggleContent}>
+            Want to boost user engagement?
+            </strong>
+            {isExpanded && (
+            <p className="mt-2 text-gray-400">
+            We focus on creating intuitive, easy-to-use apps that keep users coming back and interacting with your brand.
+            </p>
+            )}
+          </li>
+          <li>
+            <strong className="block text-lg font-semibold cursor-pointer"onClick={toggleContent} >
+            Ready to launch your app?
+            </strong>
+            {isExpanded && (
+            <p className="mt-2 text-gray-400">
+            Let’s bring your app idea to life with innovative design, seamless functionality, and a flawless user experience.
+            </p>
+            )}
+          </li>
+        </ul>
+      </div>
+    </section>
+                    </div>
+                </RevealSection>
                 <RevealSection>
-                    <div className="flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8" style={{ backgroundImage: `url('/src/assets/backgroundblk.png')` }}>
+                <div
+  className="flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8"
+  style={{ backgroundImage: `url(${backgroundImageblk})` }}
+>
                     <section className="bg-black py-16 px-8">
                     <h1 className="text-6xl lg:text-8xl font-bold text-white mb-6">
             Uncaged creativity inspires our designs
@@ -113,7 +200,10 @@ we bring your vision to life with designs that leave a lasting impact.
                     </div>
                 </RevealSection>
                 <RevealSection>
-                    <div className=" bg-blue-500 flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8" style={{ backgroundImage: `url('/src/assets/background.png')` }}>
+                <div
+  className="flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8"
+  style={{ backgroundImage: `url(${backgroundImage})` }}
+>
                     <section className="bg-white py-16 px-8">
                     <h1 className="text-6xl lg:text-8xl font-bold text-black mb-6">
         Where Style Meets Imagination 
@@ -191,7 +281,10 @@ we bring your vision to life with designs that leave a lasting impact.
                     </div>
                 </RevealSection>
                 <RevealSection>
-                    <div className=" bg-blue-500 flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8" style={{ backgroundImage: `url('/src/assets/backgroundblk.png')` }}>
+                <div
+  className="flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8"
+  style={{ backgroundImage: `url(${backgroundImageblk})` }}
+>
                     
                     <section className="bg-black py-16 px-8">
                     <h1 className="text-6xl lg:text-8xl font-bold text-white mb-6">
@@ -272,7 +365,10 @@ we bring your vision to life with designs that leave a lasting impact.
                 </RevealSection>
                 
                 <RevealSection>
-                    <div className=" bg-blue-500 flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8" style={{ backgroundImage: `url('/src/assets/background.png')` }}>
+                <div
+  className="flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8"
+  style={{ backgroundImage: `url(${backgroundImage})` }}
+>
                     <section className="bg-white py-16 px-8">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
        {/* Image Content */}
@@ -349,8 +445,10 @@ we bring your vision to life with designs that leave a lasting impact.
                     </div>
                 </RevealSection>
                 <RevealSection>
-                    <div className="  flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8" style={{ backgroundImage: `url('/src/assets/backgroundblk.png')` }}>
-                    <section className="bg-black py-16 px-8">
+                <div
+  className="flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8"
+  style={{ backgroundImage: `url(${backgroundImageblk})` }}
+><section className="bg-black py-16 px-8">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
         {/* Text Content 5*/}
         <div className="lg:w-1/2">
@@ -427,8 +525,10 @@ we bring your vision to life with designs that leave a lasting impact.
                     </div>
                 </RevealSection>
                 <RevealSection>
-                    <div className=" bg-blue-500 flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8" style={{ backgroundImage: `url('/src/assets/background.png')` }}>
-                    <section className="bg-white py-16 px-8">
+                <div
+  className="flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8"
+  style={{ backgroundImage: `url(${backgroundImage})` }}
+> <section className="bg-white py-16 px-8">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
 {/* Image Content */}
 <div className="lg:w-1/2">
@@ -509,89 +609,12 @@ Let us handle the legwork while you enjoy the best products, all delivered to yo
     </section>
                     </div>
                 </RevealSection>
+                
                 <RevealSection>
-                    <div className=" bg-blue-500 flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8" style={{ backgroundImage: `url('/src/assets/background.png')` }}>
-                    <section className="bg-white py-16 px-8">
-                    <h1 className="text-6xl lg:text-8xl font-bold text-black mb-6">
-          Creating Mobile Apps That Empower and Engage
-          </h1>
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
-        {/* Text Content 7*/}
-        <div className="lg:w-1/2">
-          
-          <p className="text-lg text-gray-700 mb-6">
-          We design and develop mobile apps that are as powerful as they are user-friendly. 
-          Whether you need a sleek, intuitive app for your business, a dynamic e-commerce platform,
-           or a custom solution tailored to your needs, we turn your ideas into a seamless mobile 
-           experience. Your app is more than just a tool—it's a bridge to your customers, your 
-           business, and your success.
-          </p>
-          <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
-            Get started
-          </button>
-        </div>
-
-        {/* Image Content */}
-        <div className="lg:w-1/2">
-          <img
-            src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHNoeXd6ZnZtbmd5NzJsaTQ5ZTllMzNpeDF1dzFwdGwyYzl0MnN3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/JPgbfjx4d2sAAkQabX/giphy.webp" // Replace with your image path
-            alt="Webflow design interface"
-            className="w-full rounded-lg shadow-lg"
-          />
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="max-w-7xl mx-auto mt-12 text-gray-800">
-      <ul className="space-y-8">
-          <li>
-            <strong className="block text-lg font-semibold cursor-pointer" onClick={toggleContent}>Need an app that stands out?</strong>
-            {isExpanded && (
-            <p className="mt-2 text-gray-400">
-            Our designs are tailored to create an app experience that reflects your brand’s identity and engages users.
-            </p>
-            )}
-          </li>
-          <li>
-            <strong className="block text-lg font-semibold cursor-pointer"onClick={toggleContent}>
-            Looking for smooth performance?
-            </strong>
-            {isExpanded && (
-            <p className="mt-2 text-gray-400">
-            We build apps that are fast, responsive, and optimized for both iOS and Android devices.
-            </p>
-            )}
-          </li>
-          <li>
-            <strong className="block text-lg font-semibold cursor-pointer" onClick={toggleContent}>
-            Want to boost user engagement?
-            </strong>
-            {isExpanded && (
-            <p className="mt-2 text-gray-400">
-            We focus on creating intuitive, easy-to-use apps that keep users coming back and interacting with your brand.
-            </p>
-            )}
-          </li>
-          <li>
-            <strong className="block text-lg font-semibold cursor-pointer"onClick={toggleContent} >
-            Ready to launch your app?
-            </strong>
-            {isExpanded && (
-            <p className="mt-2 text-gray-400">
-            Let’s bring your app idea to life with innovative design, seamless functionality, and a flawless user experience.
-            </p>
-            )}
-          </li>
-        </ul>
-      </div>
-    </section>
-                    </div>
-                </RevealSection>
-                <RevealSection>
-  <div
-    className="bg-cover bg-center h-screen text-gray-800 flex flex-col justify-center items-center"
-    style={{ backgroundImage: `url('/src/assets/background.png')` }}
-  >
+                <div
+  className="flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8"
+  style={{ backgroundImage: `url(${backgroundImage})` }}
+>
     <div className="bg-white bg-opacity-80 p-8 rounded-lg shadow-lg max-w-lg text-center">
       <h2 className="text-2xl font-bold mb-4">Banking Details</h2>
       <p className="text-lg mb-2">
@@ -619,3 +642,4 @@ Let us handle the legwork while you enjoy the best products, all delivered to yo
         </div>
   )
 }
+export default Services;

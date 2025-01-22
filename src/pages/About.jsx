@@ -8,16 +8,17 @@ import Cvutete from '../assets/cvutete.png';
 import Cchadiwa from '../assets/cchadiwa.png';
 import gowani from '../assets/gowani.jpg'
 import { FaLinkedin } from "react-icons/fa";
+import backgroundImage from '../assets/background.png';
 
-export const About = () => {
+const About = () => {
   return (
 <div> <div>
     <Navbar />
     <div>
     <div className="bg-cover bg-center h-screen text-gray-800" >
       {/* Hero Section */}
-      <section className="bg-cover mt-10 text-grey-800 py-16" style={{ backgroundImage: `url('/src/assets/background.png')` }}>
-      
+      <section className="flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8"
+  style={{ backgroundImage: `url(${backgroundImage})` }}>
         <div className="container mx-auto text-center">
           <h1 className="text-4xl text-5xl font-bold">About Us</h1>
           <p className="mt-4 text-lg md:text-xl">
@@ -151,3 +152,4 @@ Join us on this journey as we continue to shape a world where technology and lif
     
   )
 }
+export default About;
