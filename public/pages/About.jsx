@@ -1,14 +1,15 @@
 import React from 'react'
-import Navbar from '../components/Navbar';
-import Footer from '../components/footer';
+import Navbar from '../../src/components/Navbar';
+import Footer from '../../src/components/footer';
 import { motion } from 'framer-motion';
-import Contactus from '../components/Contactus';
+import Contactus from '../../src/components/Contactus';
 import PAmhonde from '../assets/pamhonde.png';
 import Cvutete from '../assets/cvutete.png';
 import Cchadiwa from '../assets/cchadiwa.png';
 import gowani from '../assets/gowani.jpg'
 import { FaLinkedin } from "react-icons/fa";
-import backgroundImage from '../assets/background.png';
+import backgroundImage from '../assets/background.png'; 
+
 
 const About = () => {
   return (

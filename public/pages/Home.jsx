@@ -1,10 +1,10 @@
-import HeroSection from '../components/HeroSection';
-import Navbar from '../components/Navbar';
-import Explore from '../components/Exploreprod';
+import HeroSection from '../../src/components/HeroSection';
+import Navbar from '../../src/components/Navbar';
+import Explore from '../../src/components/Exploreprod';
 import '../App.css';
-import Contactus from '../components/Contactus';
-import Footer from '../components/footer';
-import Companies from '../components/companies';
+import Contactus from '../../src/components/Contactus';
+import Footer from '../../src/components/footer';
+import Companies from '../../src/components/companies';
 //import Testimonials from '../components/Testimonials';
 
 export default function Home() {
