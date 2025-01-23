@@ -6,7 +6,7 @@ import "./index.css"; // Import your global styles
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Router>
+    <Router basename="/">
       <App /> {/* Render App as the main component */}
     </Router>
   </React.StrictMode>

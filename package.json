@@ -2,7 +2,7 @@
   "name": "landing-page",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://phaseofficial.github.io/",
+  "homepage": "https://phaseofficial.github.io/landing-pages/",
   "type": "module",
   "scripts": {
     "dev": "vite",
