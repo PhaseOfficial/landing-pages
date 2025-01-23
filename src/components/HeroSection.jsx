@@ -28,18 +28,27 @@ export default function HeroSection() {
 
     return (
         <section className="relative flex flex-col ma md:flex-row items-center mb-20 justify-center min-h-screen-0 bg-background text-primary pb-12 ">
-            <div className="md:w-1/2 p-8">
-            <h1 className="mb-4"><img src={weblogo} alt='logo' className='logo-home'/></h1>
-            <div>
-            <p className="text-4xl mb-4 font-bold text-transparent bg-clip-text bg-gradient-to-r from-black to-purple-600 font-montserrat typewriter-text">Where Quality is Priority</p>
-            </div>
-            <div>
-            <a href="#"   className="bg-primary text-primary-foreground hover:bg-primary/80 py-2 px-4 rounded-lg transition-colors duration-300">
-  Shop Now
-</a>
+            <div className="w-full md:w-1/2 p-4 sm:p-6 md:p-8">
+  <h1 className="mb-4 flex justify-center">
+    <img src={weblogo} alt="logo" className="logo-home " />
+  </h1>
+  <div>
+    <p className="text-2xl sm:text-3xl md:text-4xl mb-4 font-bold text-transparent bg-clip-text bg-gradient-to-r from-black to-purple-600 font-montserrat typewriter-text text-center">
+      Where Quality is Priority
+    </p>
+  </div>
+  <div className="flex justify-center">
+    <a
+      href="#"
+      className="bg-primary text-primary-foreground hover:bg-primary/80 py-2 px-4 sm:py-3 sm:px-6 rounded-lg transition-colors duration-300"
+    >
+      Shop Now
+    </a>
+  </div>
 </div>
 
-          </div>
+
+          
 
             {/* Slideshow images */}
             <div className="relative w-full h-64 md:w-1/2">
