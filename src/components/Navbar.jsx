@@ -13,11 +13,11 @@ export default function Navbar() {
                 {/* Desktop Menu */}
                 <div className="hidden md:flex space-x-6">
                     <a href="/" className="hover:text-white">Home</a>
-                    <a href="#Shop" className="hover:text-white">Shop</a>
+                    <a href="https://www.redcupseries.co.zw/#Comingsoon" className="hover:text-white">Shop</a>
                     <a href="https://www.redcupseries.co.zw/#Services" className="hover:text-white">Services</a>
                     <a href="https://www.redcupseries.co.zw/#About" className="hover:text-white">About</a>
-                    <a href="#contact" className="hover:text-white">Contact</a>
-                    <a href="#STEM" className="hover:text-white">Children STEM Books</a>
+                    <a href="https://www.redcupseries.co.zw/#Contact" className="hover:text-white">Contact</a>
+                    <a href="https://www.redcupseries.co.zw/#Comingsoon" className="hover:text-white">Children STEM Books</a>
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -34,11 +34,11 @@ export default function Navbar() {
             {isOpen && (
                 <div className="md:hidden bg-navigation bg-opacity-60 text-primary mt-2 py-4 rounded-lg shadow-lg">
                     <a href="/" className="block px-4 py-2 hover:bg-white/70">Home</a>
-                    <a href="#home" className="block px-4 py-2 hover:bg-white/70">Shop</a>
+                    <a href="https://www.redcupseries.co.zw/#Comingsoon" className="block px-4 py-2 hover:bg-white/70">Shop</a>
                     <a href="https://www.redcupseries.co.zw/#Services" className="block px-4 py-2 hover:bg-white/70">Services</a>
                     <a href="https://www.redcupseries.co.zw/#About" className="block px-4 py-2 hover:bg-white/70">About</a>
-                    <a href="#contact" className="block px-4 py-2 hover:bg-white/70">Contact</a>
-                    <a href="#STEM" className="block px-4 py-2 hover:bg-white/70">Children STEM Books</a>
+                    <a href="https://www.redcupseries.co.zw/#Contact" className="block px-4 py-2 hover:bg-white/70">Contact</a>
+                    <a href="https://www.redcupseries.co.zw/#Comingsoon" className="block px-4 py-2 hover:bg-white/70">Children STEM Books</a>
                 </div>
             )}
         </nav>

@@ -5,6 +5,7 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import ComingSoon from "./pages/comingsoon";
 import './App.css';
+import ContactUs from "./pages/Contactus";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/About" element={<About />} />
         <Route path="/Services" element={<Services />} />
         <Route path="/Comingsoon" element={<ComingSoon />} />
+        <Route path="/Contact" element={<ContactUs />} />
       </Routes>
     </div>
   );

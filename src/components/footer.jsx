@@ -14,7 +14,7 @@ const Footer = () => {
             <a href="https://www.redcupseries.co.zw/" className="text-gray-300 hover:text-white px-2">Home</a>
             <a href="https://www.redcupseries.co.zw/#About" className="text-gray-300 hover:text-white px-2">About</a>
             <a href="https://www.redcupseries.co.zw/#Services" className="text-gray-300 hover:text-white px-2">Services</a>
-            <a href="#Contact" className="text-gray-300 hover:text-white px-2">Contact</a>
+            <a href="https://www.redcupseries.co.zw/#Contact" className="text-gray-300 hover:text-white px-2">Contact</a>
           </div>
 
           {/* Social Media Icons */}
