@@ -1,9 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Navbar from "../components/Navbar";
 
 const ComingSoon = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen text-gray-900">
+    <Navbar />
       <motion.div
         className="text-center"
         initial={{ opacity: 0, y: 50 }}

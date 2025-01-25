@@ -7,6 +7,7 @@ const ContactUs = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen  text-grey-900">
     <Navbar />
+    <div className="mt-20 mb-10">
       <Contactus className="mt-20" id="contact"/>
       <motion.div
         className="text-center w-full max-w-lg"
@@ -53,6 +54,7 @@ const ContactUs = () => {
         </form>
       </motion.div>
       <Footer />
+    </div>
     </div>
   );
 };
