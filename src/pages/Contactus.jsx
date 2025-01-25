@@ -1,9 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Contactus from '../components/Contactus';
+import Navbar from "../components/Navbar";
+import Footer from "../components/footer";
 const ContactUs = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen  text-grey-900">
+    <Navbar />
       <Contactus className="mt-20" id="contact"/>
       <motion.div
         className="text-center w-full max-w-lg"
@@ -49,7 +52,7 @@ const ContactUs = () => {
           </button>
         </form>
       </motion.div>
-      
+      <Footer />
     </div>
   );
 };
