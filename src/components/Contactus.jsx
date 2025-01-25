@@ -12,20 +12,24 @@ export default function Widget() {
                 <h2 className="text-3xl font-bold mb-4 mt-10 text-gray-600">Get in Touch</h2>
                 <p className="text-lg mb-4 0 text-gray-600 ">Feel free to reach out to us for any inquiries or collaborations.</p>
                 <ul className="mb-6">
-                  <li className="flex items-center mb-2 text-gray-600">
-                  <FaPhone className="mr-2"/>
-                    <span>+263 788 1472 89</span>
-                  </li>
-                  <li className="flex items-center mb-2 text-gray-600">
-                  <MdEmail className="mr-2"/>
-                    <span>redcupseriespvtltd@gmail.com</span>
-                  </li>
-                  <li className="flex items-center text-gray-600">
-                  <IoMdPin className="mr-2"/>
-                    <span>No. 6791 New Ceney Park Harare
-</span>
-                  </li>
-                </ul>
+  <li className="flex items-center mb-2 text-gray-600">
+    <FaPhone className="mr-2" />
+    <a href="tel:+263788147289" className="hover:underline">
+      +263 788 1472 89
+    </a>
+  </li>
+  <li className="flex items-center mb-2 text-gray-600">
+    <MdEmail className="mr-2" />
+    <a href="mailto:redcupseriespvtltd@gmail.com" className="hover:underline">
+      redcupseriespvtltd@gmail.com
+    </a>
+  </li>
+  <li className="flex items-center text-gray-600">
+    <IoMdPin className="mr-2" />
+    <span>No. 6791 New Ceney Park Harare</span>
+  </li>
+</ul>
+
               </div>
         
               <div>

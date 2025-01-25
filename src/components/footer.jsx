@@ -11,10 +11,10 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           {/* Footer Links */}
           <div className="mb-4 md:mb-0">
-            <a href="#" className="text-gray-300 hover:text-white px-2">Home</a>
-            <a href="#" className="text-gray-300 hover:text-white px-2">About</a>
-            <a href="#" className="text-gray-300 hover:text-white px-2">Services</a>
-            <a href="#" className="text-gray-300 hover:text-white px-2">Contact</a>
+            <a href="https://www.redcupseries.co.zw/" className="text-gray-300 hover:text-white px-2">Home</a>
+            <a href="https://www.redcupseries.co.zw/#About" className="text-gray-300 hover:text-white px-2">About</a>
+            <a href="https://www.redcupseries.co.zw/#Services" className="text-gray-300 hover:text-white px-2">Services</a>
+            <a href="#Contact" className="text-gray-300 hover:text-white px-2">Contact</a>
           </div>
 
           {/* Social Media Icons */}

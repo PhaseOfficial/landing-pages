@@ -22,7 +22,7 @@ const Services = () => {
     <div className=''>
     <Navbar />
     <div className="relative">
-    <TrackingLine />
+   
             <ParallaxSection speed={-0.1}>
                 <div className="  flex items-center text-gray-800 bg-cover relative flex-col md:pt-20 md:p-12 md:pb-20 sd:p-8">
 
