@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const ComingSoon = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
+    <div className="flex flex-col items-center justify-center h-screen text-gray-300">
       <motion.div
         className="text-center"
         initial={{ opacity: 0, y: 50 }}

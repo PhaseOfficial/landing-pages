@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Contactus from '../components/Contactus';
 const ContactUs = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
+    <div className="flex flex-col items-center justify-center h-screen  text-grey-900">
       <Contactus className="mt-20" id="contact"/>
       <motion.div
         className="text-center w-full max-w-lg"
