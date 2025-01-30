@@ -39,7 +39,7 @@ const Exploreprod = () => {
     <BeholdWidget />
     <h2 className="text-red-800 font-bold mb-4 text-2xl mt-20">Explore More</h2>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div className="bg-card rounded-lg shadow-lg overflow-hidden flex flex-col items-center">
+      <div className="bg-card rounded-lg shadow-lg overflow-hidden flex flex-col items-center transform transition-transform duration-300 hover:scale-105">
             <FaCartShopping className='text-9xl '/>
         <div className="p-4">
           <h3 className="text-lg font-semibold">Red Cup Series Merchandise</h3>
@@ -54,7 +54,7 @@ const Exploreprod = () => {
           </a>
         </div>
       </div>
-      <div className="bg-card rounded-lg shadow-lg overflow-hidden  flex flex-col items-center">
+      <div className="bg-card rounded-lg shadow-lg overflow-hidden flex flex-col items-center transform transition-transform duration-300 hover:scale-105">
       <GiRollingDiceCup  className='text-9xl '/>
 
         <div className="p-4">
@@ -70,7 +70,7 @@ const Exploreprod = () => {
           </a>
         </div>
       </div>
-      <div className="bg-card rounded-lg shadow-lg overflow-hidden flex flex-col items-center">
+      <div className="bg-card rounded-lg shadow-lg overflow-hidden flex flex-col items-center transform transition-transform duration-300 hover:scale-105">
       <LiaPeopleCarrySolid className='text-9xl '/>
         <div className="p-4">
           <h3 className="text-lg font-semibold">Collaborate With Us</h3>
