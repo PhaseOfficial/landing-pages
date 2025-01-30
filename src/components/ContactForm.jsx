@@ -33,7 +33,7 @@ const ContactForm = () => {
       {error && <p className="text-red-500">{error}</p>}
       {success && <p className="text-green-500">{success}</p>}
       <div className="mb-4">
-        <label className="block text-white text-sm font-bold mb-2" htmlFor="name">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
           Name
         </label>
         <input
@@ -46,7 +46,7 @@ const ContactForm = () => {
         />
       </div>
       <div className="mb-4">
-        <label className="block text-white text-sm font-bold mb-2" htmlFor="email">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
           Email
         </label>
         <input
@@ -66,7 +66,7 @@ const ContactForm = () => {
           id="message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           required
         />
       </div>
