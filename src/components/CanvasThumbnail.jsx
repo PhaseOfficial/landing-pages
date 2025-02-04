@@ -1,5 +1,5 @@
-// filepath: /e:/RCSLandings/landing_pages/src/components/CanvasThumbnail.jsx
 import React, { useEffect, useRef } from 'react';
+import gamesImage from '../assets/games.png';
 
 const CanvasThumbnail = ({ gameName }) => {
   const canvasRef = useRef(null);
@@ -9,22 +9,53 @@ const CanvasThumbnail = ({ gameName }) => {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
 
-    // Set canvas size
-    canvas.width = 200;
-    canvas.height = 100;
+    const setCanvasSize = () => {
+      const width = Math.min(window.innerWidth * 1, 800); // Max width 800px
+      const height = width * 0.8; // Maintain aspect ratio (e.g., 16:9 would be width * 0.5625)
+      canvas.width = width;
+      canvas.height = height;
 
-    // Background color
-    ctx.fillStyle = "#222";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Load and draw the image while maintaining aspect ratio
+      const image = new Image();
+      image.src = gamesImage;
+      image.onload = () => {
+        const imgRatio = image.width / image.height;
+        let drawWidth = width;
+        let drawHeight = width / imgRatio;
 
-    // Text settings
-    ctx.fillStyle = "#fff";
-    ctx.font = "bold 16px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(gameName, canvas.width / 2, canvas.height / 2);
+        if (drawHeight > height) {
+          drawHeight = height;
+          drawWidth = height * imgRatio;
+        }
+
+        const offsetX = (width - drawWidth) / 2;
+        const offsetY = (height - drawHeight) / 2;
+
+        ctx.clearRect(0, 0, width, height);
+        ctx.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
+
+        // Draw game name
+        
+
+        // Shadow & Glow Effect
+        ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+
+        ctx.fillText(gameName, width / 2, height * 0.9);
+      };
+    };
+
+    setCanvasSize();
+    window.addEventListener('resize', setCanvasSize);
+
+    return () => {
+      window.removeEventListener('resize', setCanvasSize);
+    };
   }, [gameName]);
 
-  return <canvas ref={canvasRef} />;
+  return <canvas ref={canvasRef} className="w-full h-auto" />;
 };
 
 export default CanvasThumbnail;
