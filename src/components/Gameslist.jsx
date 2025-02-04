@@ -45,7 +45,8 @@ const Gameslist = () => {
       />
 
       {/* Game List */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="flex justify-center items-center min-h-screen">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
         {filteredGames.length === 0 ? (
           <p>No games found</p>
         ) : (
@@ -58,6 +59,7 @@ const Gameslist = () => {
             </div>
           ))
         )}
+      </div>
       </div>
     </div>
   );
