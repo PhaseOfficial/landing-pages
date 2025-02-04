@@ -7,6 +7,14 @@ import ComingSoon from "./pages/comingsoon";
 import './App.css';
 import ContactUs from "./pages/Contact";
 import Games from "./pages/Games";
+import TagManager from 'react-gtm-module';
+
+const tagManagerArgs = {
+  gtmId: 'GTM-PKXK7LPV', // Replace with your GTM ID
+};
+
+TagManager.initialize(tagManagerArgs);
+
 
 const App = () => {
   return (
