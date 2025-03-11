@@ -14,12 +14,13 @@ export default function Navbar() {
                 {/* Desktop Menu */}
                 <div className="hidden md:flex space-x-6">
                     <a href="/" className="hover:text-white">Home</a>
-                    <a href="https://www.redcupseries.co.zw/#Comingsoon" className="hover:text-white">Shop</a>
+                    <Link to="/Store" className="hover:text-white">Shop</Link>
                     <a href="https://www.redcupseries.co.zw/#Services" className="hover:text-white">Services</a>
                     <a href="https://www.redcupseries.co.zw/#About" className="hover:text-white">About</a>
                     <a href="https://www.redcupseries.co.zw/#Contact" className="hover:text-white">Contact</a>
                     <a href="https://www.redcupseries.co.zw/#Comingsoon" className="hover:text-white">Children STEM Books</a>
                     <Link to="/Games" className="hover:text-white">Games</Link>
+                    
                 </div>
 
                 {/* Mobile Menu Button */}
