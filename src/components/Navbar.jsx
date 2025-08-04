@@ -12,17 +12,15 @@ export default function Navbar() {
                 <h1 className="text-2xl font-bold"><img src={mysite} alt='logo' className="w-32 "/></h1>
 
                 {/* Desktop Menu */}
-                <div className="hidden md:flex space-x-6">
-                    <a href="/" className="hover:text-white">Home</a>
-                    <Link to="/Store" className="hover:text-white">Shop</Link>
-                    <a href="https://www.redcupseries.co.zw/#Services" className="hover:text-white">Services</a>
-                    <a href="https://www.redcupseries.co.zw/#About" className="hover:text-white">About</a>
-                    <a href="https://www.redcupseries.co.zw/#Contact" className="hover:text-white">Contact</a>
-                    <a href="https://www.redcupseries.co.zw/#Comingsoon" className="hover:text-white">Children STEM Books</a>
-                    <Link to="/Games" className="hover:text-white">Games</Link>
-                    
+                                <div className="hidden md:flex space-x-6">
+                <Link to="/" className="hover:text-white">Home</Link>
+                <Link to="/Store" className="hover:text-white">Shop</Link>
+                <Link to="/Services" className="hover:text-white">Services</Link>
+                <Link to="/About" className="hover:text-white">About</Link>
+                <Link to="/Contact" className="hover:text-white">Contact</Link>
+                <Link to="/Comingsoon" className="hover:text-white">Children STEM Books</Link>
+                <Link to="/Games" className="hover:text-white">Games</Link>
                 </div>
-
                 {/* Mobile Menu Button */}
                 <button
                     className="md:hidden flex items-center px-3 py-2 border rounded text-black border-red hover:text-gray-300"
