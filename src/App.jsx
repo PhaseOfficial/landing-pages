@@ -9,6 +9,7 @@ import ContactUs from "./pages/Contact";
 import Games from "./pages/Games";
 import TagManager from 'react-gtm-module';
 import StorePage from "./pages/StorePage";
+import AIChatWidget from "./components/AIChatWidget";
 
 const tagManagerArgs = {
   gtmId: 'GTM-PKXK7LPV', // Replace with your GTM ID
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/Games" element={<Games />} />
         <Route path="/Store" element={<StorePage />} />
       </Routes>
+        <AIChatWidget />
     </div>
   );
 };
