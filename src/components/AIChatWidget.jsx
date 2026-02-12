@@ -1,90 +1,95 @@
 import React, { useState, useRef, useEffect } from "react";
+import { FaComments, FaPaperPlane, FaWhatsapp } from "react-icons/fa";
+// ❌ Removed GoogleGenerativeAI import
+import contextData from "./contextPrompts.json";
+import Logo from "../assets/Vybrant brand logo.png";
+import { supabase } from "../lib/supabaseClient";
 
-
-
-// --- START: Inline SVG Icon Replacements (FaComments, FaPaperPlane) ---
-const CommentsIcon = ({ size = 30, className = "" }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-    <path d="M13 8H7"/>
-    <path d="M17 12H7"/>
-  </svg>
-);
-
-const PaperPlaneIcon = ({ size = 14, className = "" }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="m22 2-7 20-4-9-9-4Z"/>
-    <path d="M22 2 11 13"/>
-  </svg>
-);
-// --- END: Inline SVG Icon Replacements ---
-
-
-// 🧠 Context prompts: defines assistant role, tone, and company info
-const contextPrompts = `
-Our company, Red Cup Series Pvt Ltd, operates as a wholesale and retail store specializing in high-quality clothing and other sourced goods.
-
-We primarily sell premium 100% cotton T-shirts available in two variants:
-
-180 GSM — soft, lightweight, and perfect for everyday wear.
-
-240 GSM — thick, durable, and ideal for premium or customized use.
-
-Beyond clothing, we also source and supply various high-quality products from China, South Africa, Botswana, Zambia, and Tanzania. Our sourcing service includes product identification, quality evaluation, purchasing, and logistics management, ensuring that clients receive top-quality goods with a smooth, hassle-free process.
-
-In addition to product sales and sourcing, Red Cup Series provides a range of digital and creative services, including:
-
-Mobile App & Web Development — creating powerful, user-friendly apps and websites.
-
-Graphics Design & Fashion Design — crafting visually striking designs, posters, packaging, and brand visuals.
-
-AI, Machine Learning & Data Science Solutions — delivering intelligent systems and predictive analytics for smarter decisions.
-
-Digital Marketing — helping brands grow online through SEO, social media, and content strategies.
-
-Our mission is to combine style, innovation, and technology — offering clients high-quality physical products and next-generation digital solutions under one trusted brand.
-
-Banking Details
-
-Account Name: Red Cup Series Pvt Ltd
-
-Bank: FBC
-
-USD Account: 6880389312020
-
-Branch: Leopold Takawira Branch
-
-ZIG Account: 4480389310001
-
-Branches and contact details:
-+263 788 1472 89
-redcupseriespvtltd@gmail.com
-No. 6791 New Ceney Park Harare, Zimbabwe
-
-Always maintain confidentiality and encourage contacting official numbers for personal discussions.
-`;
-
-const App = () => {
+const RedCupChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { sender: "ai", text: "Hello 👋 I'm Red Cup Series AI Assistant how can I help you today?" },
-  ]);
+  const [messages, setMessages] = useState(() => {
+    // ✅ Load saved conversation from localStorage
+    const saved = localStorage.getItem("redcup_chat_history");
+    return saved
+      ? JSON.parse(saved)
+      : [{ sender: "ai", text: "👋 Hello! I'm Red Cup AI. How can I help you with your web development needs today?" }];
+  });
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [askedInfo, setAskedInfo] = useState(false);
+  const [awaitingConsent, setAwaitingConsent] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
 
-  // Ref for auto-scrolling the message window
   const messagesEndRef = useRef(null);
-  
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
 
-  // Scroll to bottom whenever messages or open state changes
+  // ✅ Save messages to localStorage on change
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isOpen]);
+    localStorage.setItem("redcup_chat_history", JSON.stringify(messages));
+  }, [messages]);
+
+  // ✅ Auto-scroll to bottom
+  const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  useEffect(() => scrollToBottom(), [messages, isOpen]);
 
   const toggleChat = () => setIsOpen(!isOpen);
+
+  const handleWhatsAppClick = () => {
+    const phoneNumber = "+263788147289";
+    const text = encodeURIComponent("Hello! I'd like to ask about your services.");
+    window.open(`https://wa.me/${phoneNumber}?text=${text}`, "_blank");
+  };
+
+  const saveLead = async ({ name, email, phone }) => {
+    const { error } = await supabase.from("contact_messages").insert([
+      {
+        name,
+        email,
+        phone,
+        message: "Submitted via AI assistant widget",
+        source: "chat_widget",
+        subscribe: true,
+      },
+    ]);
+
+    if (error) return error;
+
+    await fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-contact-email`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({ name, email, phone }),
+      }
+    );
+
+    return null;
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    const error = await saveLead(formData);
+
+    if (error) {
+      setMessages((prev) => [
+        ...prev,
+        { sender: "ai", text: "⚠️ Sorry, something went wrong saving your details." }
+      ]);
+      return;
+    }
+
+    setMessages((prev) => [
+      ...prev,
+      { sender: "ai", text: `✅ Thanks ${formData.name}! Your details have been saved.` }
+    ]);
+
+    setFormVisible(false);
+    setFormData({ name: "", email: "", phone: "" });
+  };
 
   const handleSend = async (e) => {
     e.preventDefault();
@@ -96,212 +101,235 @@ const App = () => {
     setInput("");
     setLoading(true);
 
-    try {
-      // 1. Construct the full conversation history for context
-      const conversationText = updatedMessages
-        .map((m) => `${m.sender === "user" ? "User" : "Assistant"}: ${m.text}`)
-        .join("\n");
-
-      const prompt = `${contextPrompts}\n\n${conversationText}\nAssistant:`;
-
-      // 2. Setup API Call parameters
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY; // Set as empty string for Canvas environment
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-      const payload = {
-          contents: [{ parts: [{ text: prompt }] }],
-      };
-
-      // 3. Fetch response from the Gemini API
-      const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-      });
-      
-      if (!response.ok) {
-        throw new Error(`API call failed with status: ${response.status}`);
-      }
-
-      const result = await response.json();
-
-      // Extract text from the structured JSON response
-      const aiReply = result.candidates?.[0]?.content?.parts?.[0]?.text;
-
-      if (aiReply) {
-        setMessages((prev) => [...prev, { sender: "ai", text: aiReply }]);
+    // ✅ Handle consent for showing form
+    if (awaitingConsent) {
+      const text = input.toLowerCase();
+      if (text.includes("yes") || text.includes("sure") || text.includes("ok") || text.includes("okay")) {
+        setTimeout(() => {
+          setFormVisible(true);
+          setAwaitingConsent(false);
+          setMessages((prev) => [
+            ...prev,
+            { sender: "ai", text: "Great! Please fill in your details below 👇" },
+          ]);
+        }, 600);
       } else {
         setMessages((prev) => [
           ...prev,
-          { sender: "ai", text: "Sorry, I received an empty response. Please try rephrasing your question." },
+          { sender: "ai", text: "No problem! We can continue without your contact details." },
         ]);
+        setAwaitingConsent(false);
       }
-    } catch (error) {
-      console.error("Gemini API error:", error);
+      setLoading(false);
+      return;
+    }
+
+    // ✅ Ask for Name/Email/Phone after first 2 exchanges
+    const userMessagesCount = updatedMessages.filter((m) => m.sender === "user").length;
+    if (userMessagesCount >= 2 && !askedInfo) {
+      setTimeout(() => {
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "ai",
+            text: `Before we continue, may I please have your **name**, **email**, and **phone number** so our team can assist you better?`,
+          },
+          { sender: "ai", text: `Would you like to provide that now? (Yes / No)` },
+        ]);
+        setAskedInfo(true);
+        setAwaitingConsent(true);
+      }, 1000);
+    }
+
+    // ✅ Detect request for human help
+    if (
+      input.toLowerCase().includes("chat with human") ||
+      input.toLowerCase().includes("speak to someone")
+    ) {
       setMessages((prev) => [
         ...prev,
-        { sender: "ai", text: "Oops! Something went wrong. I couldn't reach the server. Please try again later." },
+        {
+          sender: "ai",
+          text: "You can chat with one of our friendly human team members on WhatsApp below 👇",
+        },
+      ]);
+      setLoading(false);
+      return;
+    }
+
+    // ✅ CALL SUPABASE EDGE FUNCTION (Secure)
+    try {
+      const { data, error } = await supabase.functions.invoke("chat-ai", {
+        body: { 
+            messages: updatedMessages,
+            // We pass the context here so the Edge function knows who it is
+            systemPrompt: contextData.prompt 
+        },
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      const aiReply = data.reply || "I'm here to assist you further!";
+      
+      setMessages((prev) => [...prev, { sender: "ai", text: aiReply }]);
+    } catch (error) {
+      console.error("AI Error:", error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "ai",
+          text: "Sorry, I'm having trouble connecting right now. Please try again later or use our WhatsApp contact below.",
+        },
       ]);
     } finally {
       setLoading(false);
     }
   };
 
-// 🪄 Simple text formatter: supports **bold**, _italic_, __underline__, `code`, and line breaks
-const formatMessage = (text) => {
-  if (!text) return "";
-
-  let formatted = text
-    // Replace bold **text**
-    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-    // Replace italic _text_
-    .replace(/_(.*?)_/g, "<em>$1</em>")
-    // Replace underline __text__
-    .replace(/__(.*?)__/g, "<u>$1</u>")
-    // Replace inline code `code`
-    .replace(/`([^`]+)`/g, "<code class='bg-gray-200 px-1 rounded text-sm'>$1</code>")
-    // Replace newlines with <br>
-    .replace(/\n/g, "<br>");
-
-  return formatted;
-};
-
+  const formatMessage = (text) =>
+    text
+      .replace(/\*\*(.*?)\*\*/g, "<strong></strong>")
+      .replace(/_(.*?)_/g, "<em></em>")
+      .replace(/__(.*?)__/g, "<u></u>")
+      .replace(/`([^`]+)`/g, "<code class='bg-gray-200 px-1 rounded text-sm'></code>")
+      .replace(/\n/g, "<br>");
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 font-sans">
+    <div className={`fixed z-50 font-sans ${isOpen ? 'inset-0 md:bottom-6 md:right-6 md:inset-auto' : 'bottom-6 right-6'}`}>
       <style>{`
-        /* Import Inter font for a clean, modern look */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        .font-sans {
-          font-family: 'Inter', sans-serif;
+        @keyframes fadeUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .fade-up {
+          animation: fadeUp 0.4s ease-out;
         }
       `}</style>
-      
-      {/* Floating button */}
+
       {!isOpen && (
-  <div className="flex items-center space-x-3">
-    {/* Floating invitation bubble */}
-    <div className="bg-white text-gray-800 shadow-lg border border-gray-200 px-3 py-2 rounded-full text-sm font-medium animate-bounce-slow whitespace-nowrap">
-      👋 Need help? Chat with us!
-    </div>
+        <button
+          onClick={toggleChat}
+          data-track="chat_widget_open"
+          className="bg-red-500 text-white p-4 rounded-full shadow-lg hover:bg-brand-dark animate-bounce transform hover:scale-105 transition-all"
+        >
+          <FaComments size={20} />
+        </button>
+      )}
 
-    {/* Chat button */}
-    <button
-      onClick={toggleChat}
-      className="bg-red-600 text-white p-4 rounded-full shadow-xl hover:bg-red-700 transition duration-300 transform hover:scale-105"
-      aria-label="Open chat assistant"
-    >
-      <CommentsIcon size={30} />
-    </button>
-
-    {/* Animation styling */}
-    <style jsx="true">{`
-      @keyframes bounce-slow {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-3px); }
-      }
-      .animate-bounce-slow {
-        animation: bounce-slow 3s ease-in-out infinite;
-      }
-    `}</style>
-  </div>
-)}
-
-
-      {/* Chat window */}
       {isOpen && (
-        <div className="w-full p-4 max-w-sm sm:w-80 md:w-96 h-[400px] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200">
-          
+        <div className="fade-up w-full h-full md:w-96 md:h-[470px] bg-white md:shadow-2xl md:rounded-2xl overflow-hidden flex flex-col border-gray-200 md:border">
           {/* Header */}
-          <div className="bg-red-600 text-white flex justify-between items-center px-4 py-3 rounded-t-2xl">
-            <div className="flex items-center space-x-2">
-                <CommentsIcon size={20} className="text-pink-200" />
-                <h3 className="font-bold text-lg">Red Cup Series AI Assistant</h3>
-            </div>
+          <div className="bg-gray-100 flex justify-between items-center px-4 py-3">
+          <img src={Logo} alt="Red Cup Logo" className="h-8 mr-2"/>
+            <h3 className="font-bold text-red-500 text-lg">AI Chat</h3>
             <button 
               onClick={toggleChat} 
-              className="text-white hover:text-gray-200 text-2xl p-1 leading-none transition-transform duration-200 hover:rotate-90"
-              aria-label="Close chat assistant"
-            >
+              data-track="chat_widget_close"
+              className="text-2xl text-gray-500 hover:text-gray-100">
               &times;
             </button>
           </div>
 
-          {/* Messages Container */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50">
+          {/* Messages */}
+          <div className="flex-1 p-4 overflow-y-auto bg-gray-50 space-y-3">
             {messages.map((msg, idx) => (
-  <div
-    key={idx}
-    className={`flex ${
-      msg.sender === "user" ? "justify-end" : "justify-start"
-    }`}
-  >
-    <div
-      className={`px-4 py-2 rounded-xl max-w-[80%] text-sm shadow-md transition-all duration-300 ${
-        msg.sender === "user"
-          ? "bg-pink-600 text-white rounded-br-sm"
-          : "bg-white text-gray-800 border border-gray-100 rounded-tl-sm"
-      }`}
-      dangerouslySetInnerHTML={{ __html: formatMessage(msg.text) }}
-    />
-  </div>
-))}
-
-            {/* Typing Indicator */}
-            {loading && (
-              <div className="flex justify-start">
-                <div className="px-4 py-2 rounded-xl max-w-[75%] text-sm bg-gray-100 text-gray-500 rounded-bl-sm italic">
-                  Red Cup Series AI is typing
-                  <span className="dot-pulse ml-1 inline-block">.</span>
-                  <span className="dot-pulse delay-150 ml-0 inline-block">.</span>
-                  <span className="dot-pulse delay-300 ml-0 inline-block">.</span>
-                </div>
-                <style jsx="true">{`
-                  .dot-pulse {
-                    animation: dot-pulse 1s infinite alternate;
-                    opacity: 0;
-                  }
-                  .dot-pulse.delay-150 { animation-delay: 0.15s; }
-                  .dot-pulse.delay-300 { animation-delay: 0.3s; }
-                  @keyframes dot-pulse {
-                    0% { opacity: 0; transform: scale(0.8); }
-                    100% { opacity: 1; transform: scale(1); }
-                  }
-                `}</style>
+              <div key={idx} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
+                <div
+                  className={`px-4 py-2 rounded-xl max-w-[80%] text-sm shadow ${
+                    msg.sender === "user"
+                      ? "bg-green-200 text-gray-900"
+                      : "bg-neutral-100 text-neutral-800"
+                  }`}
+                  dangerouslySetInnerHTML={{ __html: formatMessage(msg.text) }}
+                />
               </div>
-            )}
-            
-            {/* Scroll Anchor */}
+            ))}
+            {loading && <div className="italic text-neutral-500 text-sm">Red Cup AI is typing...</div>}
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input */}
-          <form
-            onSubmit={handleSend}
-            className="flex border-t border-gray-200 p-3 items-center bg-white rounded-b-2xl"
-          >
-            <input
-              type="text"
-              placeholder="Ask about clothes, accessories, or contact details..."
-              className="flex-1 px-4 py-2 text-gray-700 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500 text-sm transition"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              disabled={loading}
-              aria-label="Message input"
-            />
-            <button
-              type="submit"
-              disabled={loading || !input.trim()}
-              className="ml-2 bg-red-600 text-white p-2.5 rounded-full shadow-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105"
-              aria-label="Send message"
+          {/* Contact Form */}
+          {formVisible && (
+            <form
+              onSubmit={handleFormSubmit}
+              data-track="chat_contact_form_submit"
+              className="fade-up bg-white border-t p-3 space-y-2 text-sm"
             >
-              <PaperPlaneIcon size={16} />
+            <p className="text-gray-700">Please provide your contact details:</p>
+              <input
+                type="text"
+                placeholder="Your Name (e.g., John Doe)"
+                required
+                className="w-full p-2 border border-gray-300 text-gray-700 rounded-md"
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              />
+              <input
+                type="email"
+                placeholder="Your Email (e.g., john.doe@example.com)"
+                required
+                className="w-full p-2 border border-gray-300 text-gray-700 rounded-md"
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              />
+              <input
+                type="tel"
+                placeholder="Your Phone Number (e.g., +1234567890)"
+                required
+                className="w-full p-2 border border-gray-300 text-gray-700 rounded-md"
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              />
+              <button
+                type="submit"
+                className="bg-brand-DEFAULT w-full text-white py-2 rounded-md hover:bg-brand-dark"
+              >
+                Save Info
+              </button>
+            </form>
+          )}
+
+          {/* Input */}
+          {!formVisible && (
+            <form onSubmit={handleSend} className="flex p-3 border-t bg-white text-black items-center">
+              <input
+                type="text"
+                placeholder="Ask about web development..."
+                className="flex-1 p-2 bg-gray-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-DEFAULT"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+              />
+              <button
+                type="submit"
+                disabled={!input.trim()}
+                data-track="chat_message_send"
+                className="ml-2 bg-red-500 text-white p-2 rounded-full hover:bg-brand-dark"
+              >
+                <FaPaperPlane size={14} />
+              </button>
+            </form>
+          )}
+
+          {/* WhatsApp Button */}
+          <div className="border-t bg-green-300 flex justify-center items-center p-3">
+            <button
+              onClick={handleWhatsAppClick}
+              data-track="chat_whatsapp_redirect"
+              className="flex items-center space-x-2 text-brand-DEFAULT font-semibold hover:text-brand-dark"
+            >
+              <FaWhatsapp size={22} />
+              <span>Chat on WhatsApp</span>
             </button>
-          </form>
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-export default App;
+export default RedCupChatBot;

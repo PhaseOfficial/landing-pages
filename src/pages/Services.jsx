@@ -58,7 +58,6 @@ const Services = () => {
                 Powerful, user-friendly apps for business or e-commerce. We build sleek solutions that engage users.
               </p>
               
-              {/* Accordion */}
               <div className="mt-4 pt-4 border-t border-gray-200">
                  <div onClick={() => toggleContent('mobileApps')} className="cursor-pointer flex justify-between items-center text-sm font-bold text-blue-600 hover:text-blue-800">
                     <span>View Features</span>
@@ -268,32 +267,39 @@ const Services = () => {
             </div>
           </RevealSection>
 
-          {/* 8. Banking Details (Span 2 columns on medium, or just fit in grid) */}
-          <RevealSection>
-            <div className={`${cardClass} bg-gradient-to-br from-blue-900 to-gray-900 text-white border-none`}>
-               <div className="h-48 mb-6 flex items-center justify-center bg-white/10 rounded-xl">
-                  <h3 className="text-4xl font-bold opacity-50">BANKING</h3>
-               </div>
-               <h2 className="text-2xl font-bold mb-4">Banking Details</h2>
-               <div className="space-y-2 text-sm text-gray-200">
-                   <p className="flex justify-between border-b border-white/10 pb-1">
-                       <span>Account Name:</span> <span className="font-bold">RED CUP SERIES</span>
-                   </p>
-                   <p className="flex justify-between border-b border-white/10 pb-1">
-                       <span>Bank:</span> <span>FBC</span>
-                   </p>
-                   <p className="flex justify-between border-b border-white/10 pb-1">
-                       <span>USD Acc:</span> <span className="font-mono">6880389312020</span>
-                   </p>
-                   <p className="flex justify-between pt-1">
-                       <span>ZIG Acc:</span> <span className="font-mono">4480389310001</span>
-                   </p>
-               </div>
-            </div>
-          </RevealSection>
-
         </div>
       </div>
+
+      {/* --- SEPARATE BANKING SECTION --- */}
+      <div className="bg-gray-900 text-white py-12 border-t border-gray-800">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+            <h2 className="text-3xl font-bold mb-8 uppercase tracking-wider text-blue-400">Official Banking Details</h2>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-sm max-w-2xl mx-auto">
+                <div className="space-y-4 text-lg">
+                   <div className="flex flex-col sm:flex-row justify-between items-center border-b border-white/10 pb-2">
+                       <span className="text-gray-400">Account Name</span> 
+                       <span className="font-bold text-white">RED CUP SERIES PVT LTD</span>
+                   </div>
+                   <div className="flex flex-col sm:flex-row justify-between items-center border-b border-white/10 pb-2">
+                       <span className="text-gray-400">Bank</span> 
+                       <span className="font-semibold">FBC Bank</span>
+                   </div>
+                   <div className="flex flex-col sm:flex-row justify-between items-center border-b border-white/10 pb-2">
+                       <span className="text-gray-400">USD Account</span> 
+                       <span className="font-mono text-xl text-green-400">6880389312020</span>
+                   </div>
+                   <div className="flex flex-col sm:flex-row justify-between items-center">
+                       <span className="text-gray-400">ZIG Account</span> 
+                       <span className="font-mono text-xl text-yellow-400">4480389310001</span>
+                   </div>
+                   <div className="pt-4 text-sm text-gray-500 italic">
+                        Branch: Leopold Takawira
+                   </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
       <Footer />
     </div>
   );
