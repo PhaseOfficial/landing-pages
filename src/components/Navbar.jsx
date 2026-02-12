@@ -34,13 +34,13 @@ export default function Navbar() {
             {/* Mobile Menu */}
             {isOpen && (
                 <div className="md:hidden bg-navigation bg-opacity-60 text-primary mt-2 py-4 rounded-lg shadow-lg">
-                    <a href="/" className="block px-4 py-2 hover:bg-white/70">Home</a>
-                    <a href="https://www.redcupseries.co.zw/#Comingsoon" className="block px-4 py-2 hover:bg-white/70">Shop</a>
-                    <a href="https://www.redcupseries.co.zw/#Services" className="block px-4 py-2 hover:bg-white/70">Services</a>
-                    <a href="https://www.redcupseries.co.zw/#About" className="block px-4 py-2 hover:bg-white/70">About</a>
-                    <a href="https://www.redcupseries.co.zw/#Contact" className="block px-4 py-2 hover:bg-white/70">Contact</a>
-                    <a href="https://www.redcupseries.co.zw/#Comingsoon" className="block px-4 py-2 hover:bg-white/70">Children STEM Books</a>
-                    <Link to="/Games" className="block px-4 py-2 hover:bg-white/70">Games</Link>
+                    <Link to="/" className="block px-4 py-2 hover:bg-white/70">Home</Link>
+                    <Link to="/store" className="block px-4 py-2 hover:bg-white/70">Shop</Link>
+                    <Link to="/services" className="block px-4 py-2 hover:bg-white/70">Services</Link>
+                    <Link to="/about" className="block px-4 py-2 hover:bg-white/70">About</Link>
+                    <Link to="/contact" className="block px-4 py-2 hover:bg-white/70">Contact</Link>
+                    <Link to="/comingsoon" className="block px-4 py-2 hover:bg-white/70">Children STEM Books</Link>
+                    <Link to="/games" className="block px-4 py-2 hover:bg-white/70">Games</Link>
                 </div>
             )}
         </nav>
