@@ -18,7 +18,6 @@ export default function Navbar() {
                 <Link to="/Services" className="hover:text-white">Services</Link>
                 <Link to="/About" className="hover:text-white">About</Link>
                 <Link to="/Contact" className="hover:text-white">Contact</Link>
-                <Link to="/Comingsoon" className="hover:text-white">Children STEM Books</Link>
                 <Link to="/Games" className="hover:text-white">Games</Link>
                 </div>
                 {/* Mobile Menu Button */}
@@ -39,7 +38,6 @@ export default function Navbar() {
                     <Link to="/services" className="block px-4 py-2 hover:bg-white/70">Services</Link>
                     <Link to="/about" className="block px-4 py-2 hover:bg-white/70">About</Link>
                     <Link to="/contact" className="block px-4 py-2 hover:bg-white/70">Contact</Link>
-                    <Link to="/comingsoon" className="block px-4 py-2 hover:bg-white/70">Children STEM Books</Link>
                     <Link to="/games" className="block px-4 py-2 hover:bg-white/70">Games</Link>
                 </div>
             )}
