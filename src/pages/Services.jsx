@@ -28,7 +28,7 @@ const Services = () => {
   const cardClass = "bg-white/80 backdrop-blur-sm border border-white/50 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col h-full";
 
   return (
-    <div className='bg-gradient-to-br from-gray-50 to-gray-200 min-h-screen'>
+    <div className=''>
       <Navbar />
       
       {/* Header */}

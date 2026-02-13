@@ -67,24 +67,24 @@ const About = () => {
   // Removed useThemeClasses hook
 
   return (
-    <div className="min-h-screen font-sans transition-colors duration-300 bg-gray-50 text-gray-900">
+    <div className="min-h-screen font-sans transition-colors duration-300  text-gray-900">
       <Navbar />
 
       {/* === HERO SECTION === */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white">
+      <section className="">
         {/* Abstract Background Elements */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full z-0 pointer-events-none">
+        {/* <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full z-0 pointer-events-none">
            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-red-500/10 blur-[120px] rounded-full mix-blend-screen" />
            <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-blue-500/10 blur-[100px] rounded-full mix-blend-screen" />
-        </div>
+        </div> */}
 
-        <div className="container mx-auto px-6 relative z-10 text-center">
+        <div className="container mx-auto px-6 mt-16 relative z-10 text-center">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <img src={Logo} alt="Red Cup Series Logo" className="h-24 w-auto mx-auto mb-8" />
+            <img src={Logo} alt="Red Cup Series Logo" className="h-30 w-auto mx-auto mb-8" />
             <span className="inline-block py-1 px-4 rounded-full text-xs font-bold uppercase tracking-widest mb-6 border bg-red-50 text-red-600 border-red-100">
               Who We Are
             </span>
@@ -114,7 +114,7 @@ const About = () => {
       </section>
 
       {/* === STORY & MISSION GRID === */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 rounded-2xl bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             
@@ -240,7 +240,7 @@ const About = () => {
       </section> */}
 
       {/* === CIPZ TRUST SECTION === */}
-      <section className="py-24 px-6 relative overflow-hidden bg-gray-50">
+      <section className="py-24 px-6 relative overflow-hidden">
         <div className="container mx-auto max-w-5xl">
           <motion.div 
             initial={{ opacity: 0, y: 40 }}
