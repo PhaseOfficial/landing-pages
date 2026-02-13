@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import mysite from '../assets/weblogo.png';
 import { GiHamburgerMenu } from "react-icons/gi";
-import { X } from "lucide-react"; // I added X for a close icon, or you can use GiHamburgerMenu again
+import { X, ShoppingCart } from "lucide-react"; // I added X for a close icon, or you can use GiHamburgerMenu again
 import { Link } from 'react-router-dom';
+import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const { cartQuantity } = useShoppingCart();
 
     // Shared Link Styles for Desktop
     const navLinkClass = "px-4 py-2 rounded-full text-sm font-medium text-gray-800 transition-all duration-300 hover:bg-white/40 hover:text-black hover:shadow-sm hover:backdrop-blur-lg";
@@ -30,6 +32,14 @@ export default function Navbar() {
                     <Link to="/About" className={navLinkClass}>About</Link>
                     <Link to="/Contact" className={navLinkClass}>Contact</Link>
                     <Link to="/Games" className={navLinkClass}>Games</Link>
+                    <Link to="/cart" className="relative px-4 py-2 rounded-full text-sm font-medium text-gray-800 transition-all duration-300 hover:bg-white/40 hover:text-black hover:shadow-sm hover:backdrop-blur-lg">
+                        <ShoppingCart size={20} />
+                        {cartQuantity > 0 && (
+                            <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                                {cartQuantity}
+                            </span>
+                        )}
+                    </Link>
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -51,6 +61,15 @@ export default function Navbar() {
                         <Link to="/about" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">About</Link>
                         <Link to="/contact" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Contact</Link>
                         <Link to="/games" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Games</Link>
+                        <Link to="/cart" onClick={() => setIsOpen(false)} className="relative block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors flex items-center gap-2">
+                            <ShoppingCart size={20} />
+                            Cart
+                            {cartQuantity > 0 && (
+                                <span className="ml-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                                    {cartQuantity}
+                                </span>
+                            )}
+                        </Link>
                     </div>
                 </div>
             )}

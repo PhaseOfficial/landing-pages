@@ -4,11 +4,13 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/footer';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Search, CheckCircle2, ImageOff, Shirt, Briefcase } from 'lucide-react';
+import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
 const Store = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const { addItem } = useShoppingCart();
   
   useEffect(() => {
     fetchData();
@@ -18,7 +20,7 @@ const Store = () => {
     try {
       setLoading(true);
 
-      // 1. Fetch Services
+      // 1. Fetch Services (Now includes price as number and currency)
       const { data: servicesData, error: servicesError } = await supabase
         .from('services')
         .select('*')
@@ -26,7 +28,7 @@ const Store = () => {
       
       if (servicesError) throw servicesError;
 
-      // 2. Fetch Products (Clothes)
+      // 2. Fetch Products (Now includes price as number and currency)
       const { data: productsData, error: productsError } = await supabase
         .from('products')
         .select('*')
@@ -35,16 +37,19 @@ const Store = () => {
       if (productsError) throw productsError;
 
       // 3. Normalize and Combine Data
-      // We map 'product.name' to 'title' so the grid works for both
-      const formattedServices = (servicesData || []).map(s => ({ ...s, type: 'service', uniqueId: `s_${s.id}` }));
+      const formattedServices = (servicesData || []).map(s => ({ 
+        ...s, 
+        type: 'service', 
+        uniqueId: `s_${s.id}` 
+      }));
+
       const formattedProducts = (productsData || []).map(p => ({ 
           ...p, 
           type: 'product', 
-          title: p.name, // Normalize name to title
+          title: p.name, 
           uniqueId: `p_${p.id}` 
       }));
 
-      // Combine and set state
       setItems([...formattedServices, ...formattedProducts]);
 
     } catch (error) {
@@ -54,28 +59,31 @@ const Store = () => {
     }
   };
 
-  // Extract unique categories
+  /**
+   * Helper to format currency correctly based on the DB field
+   * @param {number} amount 
+   * @param {string} currencyCode (e.g., 'USD', 'EUR')
+   */
+  const formatPrice = (amount, currencyCode = 'USD') => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currencyCode,
+    }).format(amount);
+  };
+
   const categories = ['All', ...new Set(items.map(i => i.category).filter(Boolean))];
   
-  // Filter logic
   const filteredItems = selectedCategory === 'All' 
     ? items 
     : items.filter(i => i.category === selectedCategory);
 
-  // Styles
   const cardClass = "bg-white/80 backdrop-blur-sm border border-white/50 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-red-900/10 transition-all duration-300 flex flex-col h-full group";
   
   return (
     <div className="min-h-screen bg-gradient-to-br to-gray-200 font-sans">
       <Navbar />
 
-      {/* === HERO HEADER === */}
       <div className="relative pt-32 pb-12 text-center px-4 overflow-hidden">
-        {/* <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-             <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-red-200/40 rounded-full blur-3xl mix-blend-multiply" />
-             <div className="absolute bottom-[-10%] left-[-5%] w-96 h-96 bg-blue-100/40 rounded-full blur-3xl mix-blend-multiply" />
-        </div> */}
-
         <div className="relative z-10 max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 tracking-tight">
               The <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-600">Store.</span>
@@ -86,7 +94,6 @@ const Store = () => {
         </div>
       </div>
 
-      {/* === CATEGORY FILTER === */}
       <div className="max-w-7xl mx-auto px-6 py-4 sticky top-20 z-30 pointer-events-none">
         <div className="pointer-events-auto bg-white/70 backdrop-blur-md border border-white/40 p-2 rounded-2xl shadow-sm flex flex-wrap gap-2 justify-center md:justify-start max-w-fit mx-auto md:mx-0">
             {categories.map((cat) => (
@@ -105,13 +112,12 @@ const Store = () => {
         </div>
       </div>
 
-      {/* === MAIN GRID === */}
       <div className="max-w-7xl mx-auto px-6 pb-24 mt-8">
         {loading ? (
            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1,2,3,4,5,6].map(i => (
+             {[1,2,3,4,5,6].map(i => (
                   <div key={i} className="bg-white/50 h-[500px] rounded-3xl animate-pulse border border-white/50"></div>
-              ))}
+             ))}
            </div>
         ) : (
            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -123,17 +129,12 @@ const Store = () => {
                     viewport={{ once: true }}
                     className={cardClass}
                 >
-                    {/* === IMAGE AREA === */}
                     <div className="h-64 overflow-hidden bg-gray-100 relative border-b border-gray-100">
                         {item.image_url ? (
                             <img 
                                 src={item.image_url} 
                                 alt={item.title} 
                                 className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
-                                onError={(e) => {
-                                    e.target.onerror = null; 
-                                    e.target.src = "https://via.placeholder.com/400x300?text=No+Image";
-                                }}
                             />
                         ) : (
                              <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 bg-gray-50">
@@ -142,7 +143,6 @@ const Store = () => {
                             </div>
                         )}
                         
-                        {/* Category Badge */}
                         <div className="absolute top-4 left-4">
                              {item.category && (
                                 <span className="bg-white/90 backdrop-blur text-gray-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm border border-gray-100 flex items-center gap-1">
@@ -152,7 +152,6 @@ const Store = () => {
                              )}
                         </div>
 
-                        {/* Status Badges (Product vs Service) */}
                         {item.type === 'product' ? (
                             !item.in_stock && (
                                 <div className="absolute top-4 right-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
@@ -168,23 +167,19 @@ const Store = () => {
                         )}
                     </div>
 
-                    {/* === CONTENT AREA === */}
                     <div className="p-6 flex flex-col flex-grow relative">
-                        {/* Title */}
                         <div className="flex justify-between items-start mb-2">
                             <h3 className="text-xl font-bold text-gray-900 line-clamp-1">{item.title}</h3>
                         </div>
 
-                        {/* Price Tag */}
+                        {/* --- UPDATED PRICE SECTION --- */}
                         <div className="mb-4 flex items-baseline gap-1">
-                            {item.price ? (
+                            {item.price !== null && item.price !== undefined ? (
                                 <>
-                                    {/* DB Price */}
                                     <span className="text-2xl font-bold text-red-600 font-mono">
-                                        {item.price}
+                                        {formatPrice(item.price, item.currency || 'USD')}
                                     </span>
                                     
-                                    {/* Show billing cycle ONLY for services */}
                                     {item.type === 'service' && item.billing_cycle && (
                                         <span className="text-sm text-gray-500 font-medium">
                                             {item.billing_cycle.startsWith('/') ? item.billing_cycle : `/${item.billing_cycle}`}
@@ -196,12 +191,10 @@ const Store = () => {
                             )}
                         </div>
                         
-                        {/* Description */}
                         <p className="text-sm text-gray-500 mb-4 line-clamp-2 leading-relaxed">
                             {item.description}
                         </p>
 
-                        {/* Features List (Services Only) */}
                         {item.type === 'service' && item.features && item.features.length > 0 && (
                             <div className="mb-6 flex-grow">
                                 <ul className="space-y-1">
@@ -220,11 +213,10 @@ const Store = () => {
                             </div>
                         )}
                         
-                        {/* Spacer for Products to align buttons if no features */}
                         {item.type === 'product' && <div className="flex-grow"></div>}
 
-                        {/* Action Buttons */}
                         <button 
+                            onClick={() => addItem(item)} 
                             disabled={item.type === 'product' && !item.in_stock}
                             className={`w-full py-3 rounded-xl flex items-center justify-center gap-2 transition-all font-semibold shadow-md active:scale-95 ${
                                 (item.type === 'product' && !item.in_stock)
@@ -241,7 +233,6 @@ const Store = () => {
            </div>
         )}
 
-        {/* Empty State */}
         {!loading && filteredItems.length === 0 && (
             <div className="text-center py-20 bg-white/30 backdrop-blur-sm rounded-3xl border border-white/50">
                 <Search size={48} className="mx-auto text-gray-300 mb-4" />

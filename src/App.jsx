@@ -9,6 +9,10 @@ import ContactUs from "./pages/Contact";
 import Games from "./pages/Games";
 import TagManager from 'react-gtm-module';
 import StorePage from "./pages/StorePage";
+import CartPage from "./pages/CartPage";
+import AuthPage from "./pages/AuthPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import PaymentSuccessPage from "./pages/PaymentSuccessPage"; // Placeholder, will create later
 import AIChatWidget from "./components/AIChatWidget";
 
 const tagManagerArgs = {
@@ -30,6 +34,10 @@ const App = () => {
         <Route path="/Contact" element={<ContactUs />} />
         <Route path="/Games" element={<Games />} />
         <Route path="/Store" element={<StorePage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/payment-success" element={<PaymentSuccessPage />} />
       </Routes>
         <AIChatWidget />
     </div>
