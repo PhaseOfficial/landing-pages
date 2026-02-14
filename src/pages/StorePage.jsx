@@ -20,7 +20,7 @@ const Store = () => {
     try {
       setLoading(true);
 
-      // 1. Fetch Services (Now includes price as number and currency)
+      // 1. Fetch Services
       const { data: servicesData, error: servicesError } = await supabase
         .from('services')
         .select('*')
@@ -28,7 +28,7 @@ const Store = () => {
       
       if (servicesError) throw servicesError;
 
-      // 2. Fetch Products (Now includes price as number and currency)
+      // 2. Fetch Products
       const { data: productsData, error: productsError } = await supabase
         .from('products')
         .select('*')
@@ -36,18 +36,29 @@ const Store = () => {
 
       if (productsError) throw productsError;
 
-      // 3. Normalize and Combine Data
+      // 3. Helper to resolve Storage URLs
+      // If the URL in DB is just a path, this converts it to a full URL
+      const getFullImageUrl = (path) => {
+        if (!path) return null;
+        if (path.startsWith('http')) return path; // Already a full URL
+        const { data } = supabase.storage.from('store-images').getPublicUrl(path);
+        return data.publicUrl;
+      };
+
+      // 4. Normalize and Combine Data
       const formattedServices = (servicesData || []).map(s => ({ 
         ...s, 
         type: 'service', 
-        uniqueId: `s_${s.id}` 
+        uniqueId: `s_${s.id}`,
+        resolved_image: getFullImageUrl(s.image_url)
       }));
 
       const formattedProducts = (productsData || []).map(p => ({ 
           ...p, 
           type: 'product', 
           title: p.name, 
-          uniqueId: `p_${p.id}` 
+          uniqueId: `p_${p.id}`,
+          resolved_image: getFullImageUrl(p.image_url)
       }));
 
       setItems([...formattedServices, ...formattedProducts]);
@@ -59,11 +70,6 @@ const Store = () => {
     }
   };
 
-  /**
-   * Helper to format currency correctly based on the DB field
-   * @param {number} amount 
-   * @param {string} currencyCode (e.g., 'USD', 'EUR')
-   */
   const formatPrice = (amount, currencyCode = 'USD') => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -130,11 +136,13 @@ const Store = () => {
                     className={cardClass}
                 >
                     <div className="h-64 overflow-hidden bg-gray-100 relative border-b border-gray-100">
-                        {item.image_url ? (
+                        {/* Use resolved_image here */}
+                        {item.resolved_image ? (
                             <img 
-                                src={item.image_url} 
+                                src={item.resolved_image} 
                                 alt={item.title} 
                                 className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
+                                loading="lazy"
                             />
                         ) : (
                              <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 bg-gray-50">
@@ -172,7 +180,6 @@ const Store = () => {
                             <h3 className="text-xl font-bold text-gray-900 line-clamp-1">{item.title}</h3>
                         </div>
 
-                        {/* --- UPDATED PRICE SECTION --- */}
                         <div className="mb-4 flex items-baseline gap-1">
                             {item.price !== null && item.price !== undefined ? (
                                 <>

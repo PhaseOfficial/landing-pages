@@ -51,7 +51,7 @@ const CheckoutPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 font-sans flex flex-col items-center justify-center">
+      <div className="min-h-screen font-sans flex flex-col items-center justify-center">
         <Loader2 size={48} className="animate-spin text-red-600" />
         <p className="mt-4 text-lg text-gray-700">Loading checkout...</p>
       </div>
@@ -61,7 +61,7 @@ const CheckoutPage = () => {
   if (!user) {
     // Should be redirected by useEffect, but as a fallback
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 font-sans flex flex-col items-center justify-center">
+      <div className="min-h-screen font-sans flex flex-col items-center justify-center">
         <p className="text-xl text-gray-700">Redirecting to login...</p>
       </div>
     );
@@ -105,8 +105,9 @@ const CheckoutPage = () => {
         .insert({
           id: clientReference,
           user_id: user.id,
+          amount: cartTotal,
 
-          total: cartTotal,
+
           status: 'Pending',
         });
 
