@@ -3,18 +3,20 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/footer';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 import { supabase } from '../lib/supabaseClient';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { CreditCard, Loader2, ShoppingCart as ShoppingCartIcon } from 'lucide-react'; // Added ShoppingCartIcon
 
 const CheckoutPage = () => {
-  const { cartItems, cartTotal, clearCart } = useShoppingCart();
+  const { cartItems, cartTotal, clearCart, setCartItemsFromInvoice } = useShoppingCart();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(''); // Add error state
   const navigate = useNavigate();
+  const location = useLocation(); // Initialize useLocation
   const [customerPhoneNumber, setCustomerPhoneNumber] = useState('');
+  const [existingInvoiceId, setExistingInvoiceId] = useState(null); // State to store invoice ID if retrying
 
   useEffect(() => {
     const checkUser = async () => {
@@ -47,7 +49,53 @@ const CheckoutPage = () => {
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, [navigate]);
+  }, [navigate, location.search]); // Add location.search to dependencies
+
+  // Effect to load invoice details if invoiceId is present in URL
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const id = queryParams.get('invoiceId');
+
+    const loadInvoiceForRetry = async () => {
+      if (id && user && !existingInvoiceId) { // Only fetch if id, user, and no existing invoice
+        setLoading(true);
+        try {
+          const { data: invoice, error: fetchError } = await supabase
+            .from('invoices')
+            .select('*')
+            .eq('id', id)
+            .eq('user_id', user.id) // Ensure only current user's invoice can be retried
+            .single();
+
+          if (fetchError) throw fetchError;
+
+          if (invoice && invoice.invoice_products) {
+            setExistingInvoiceId(invoice.id);
+            setCartItemsFromInvoice(invoice.invoice_products);
+            // Optionally set amount and description from invoice if needed
+          } else {
+            setError('Invoice not found or no products to retry.');
+            navigate('/purchase-history'); // Redirect if invoice not found
+          }
+        } catch (err) {
+          console.error('Error loading invoice for retry:', err.message);
+          setError('Failed to load invoice for retry.');
+          navigate('/purchase-history'); // Redirect on error
+        } finally {
+          setLoading(false);
+        }
+      } else if (!id && cartItems.length === 0) {
+        // If no invoiceId and cart is empty, redirect to store or history
+        // This handles cases where user navigates directly to /checkout with empty cart
+        // and no retry intention.
+        navigate('/store');
+      }
+    };
+
+    if (user) { // Only run if user is authenticated
+      loadInvoiceForRetry();
+    }
+  }, [user, location.search, navigate, setCartItemsFromInvoice, cartItems.length]); // Dependencies
 
   if (loading) {
     return (
@@ -67,7 +115,8 @@ const CheckoutPage = () => {
     );
   }
 
-  if (cartItems.length === 0) {
+  // Adjust this block: only redirect if cart is empty AND no invoiceId for retry
+  if (cartItems.length === 0 && !existingInvoiceId) {
     return (
       <div className="min-h-screen mt-16 font-sans flex flex-col">
         <Navbar />
@@ -96,23 +145,55 @@ const CheckoutPage = () => {
       return;
     }
 
-    const clientReference = uuidv4();
+    // Determine clientReference: use existingInvoiceId if present, otherwise generate new
+    const currentClientReference = existingInvoiceId || uuidv4();
 
+    const productsList = cartItems.map((item, index) => ({
+      description: item.title,
+      id: index,
+      price: parseFloat(item.price),
+      productName: item.title,
+      quantity: item.quantity
+    }));
 
     try {
-      const { error: invoiceError } = await supabase
-        .from('invoices')
-        .insert({
-          id: clientReference,
-          user_id: user.id,
-          amount: cartTotal,
+      if (existingInvoiceId) {
+        // Update existing invoice
+        const { error: updateError } = await supabase
+          .from('invoices')
+          .update({
+            status: 'Pending',
+            updated_at: new Date().toISOString(),
+            // Optionally update item_name, item_description, invoice_products
+            // if cart contents could have changed on retry
+            item_name: cartItems[0]?.title || 'Order from Store',
+            item_description: cartItems[0]?.description || 'Multiple items purchased from the store.',
+            invoice_products: productsList,
+            amount: cartTotal, // Update amount if cartTotal changed
+          })
+          .eq('id', existingInvoiceId);
 
+        if (updateError) {
+          throw new Error(`Failed to update invoice: ${updateError.message}`);
+        }
+      } else {
+        // Insert new invoice
+        const { error: invoiceError } = await supabase
+          .from('invoices')
+          .insert({
+            id: currentClientReference,
+            user_id: user.id,
+            amount: cartTotal,
+            status: 'Pending',
+            due_date: new Date().toISOString(),
+            item_name: cartItems[0]?.title || 'Order from Store',
+            item_description: cartItems[0]?.description || 'Multiple items purchased from the store.',
+            invoice_products: productsList, // Save full product list
+          });
 
-          status: 'Pending',
-        });
-
-      if (invoiceError) {
-        throw new Error(`Failed to create invoice: ${invoiceError.message}`);
+        if (invoiceError) {
+          throw new Error(`Failed to create invoice: ${invoiceError.message}`);
+        }
       }
       
       const clicknPayId = import.meta.env.VITE_CLICKNPAY_ID; // Get from .env
@@ -122,22 +203,16 @@ const CheckoutPage = () => {
 
       const orderPayload = {
         channel: "AUTOMATED",
-        clientReference: clientReference,
-        currency: 'ZWL',
+        clientReference: currentClientReference, // Use currentClientReference here
+        currency: cartItems[0].currency || 'USD',
         customerCharged: true,
         customerPhoneNumber: customerPhoneNumber,
         description: `Purchase from store - User: ${user.email}`,
         multiplePayments: true,
         orderYpe: "DYNAMIC",
-        productsList: cartItems.map((item, index) => ({
-          description: item.title,
-          id: index,
-          price: parseFloat(item.price),
-          productName: item.title,
-          quantity: item.quantity
-        })),
+        productsList: productsList,
         publicUniqueId: clicknPayId,
-        returnUrl: `${window.location.origin}/payment-response`,
+        returnUrl: `${window.location.origin}/payment-response?clientReference=${currentClientReference}`,
       };
 
       const response = await axios.post(

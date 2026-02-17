@@ -62,7 +62,7 @@ export default function HeroSection() {
                 {/* Button Container */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-4">
                     <a
-                        href="#"
+                        href="/Store"
                         className="bg-primary text-primary-foreground hover:bg-primary/80 py-2 px-4 sm:py-3 sm:px-6 rounded-lg transition-colors duration-300 w-full sm:w-auto text-center"
                     >
                         Shop Now

@@ -1,16 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // Added useEffect
 import mysite from '../assets/weblogo.png';
 import { GiHamburgerMenu } from "react-icons/gi";
-import { X, ShoppingCart } from "lucide-react"; // I added X for a close icon, or you can use GiHamburgerMenu again
-import { Link } from 'react-router-dom';
+import { X, ShoppingCart } from "lucide-react"; 
+import { Link, useNavigate } from 'react-router-dom'; // Added useNavigate
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
+import { supabase } from '../lib/supabaseClient'; // Added supabase
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const { cartQuantity } = useShoppingCart();
+    const [user, setUser] = useState(null); // Added user state
+    const navigate = useNavigate(); // Added useNavigate
+
+    // Effect to check user session on mount and listen for auth state changes
+    useEffect(() => {
+        const checkUser = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            setUser(session?.user || null);
+        };
+        checkUser();
+
+        const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user || null);
+        });
+
+        return () => {
+            authListener.subscription.unsubscribe();
+        };
+    }, []); // Empty dependency array means this runs once on mount
 
     // Shared Link Styles for Desktop
     const navLinkClass = "px-4 py-2 rounded-full text-sm font-medium text-gray-800 transition-all duration-300 hover:bg-white/40 hover:text-black hover:shadow-sm hover:backdrop-blur-lg";
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        navigate('/auth'); // Redirect to auth page after logout
+        setIsOpen(false); // Close mobile menu if open
+    };
 
     return (
         // Wrapper to center and float the navbar
@@ -32,6 +58,12 @@ export default function Navbar() {
                     <Link to="/About" className={navLinkClass}>About</Link>
                     <Link to="/Contact" className={navLinkClass}>Contact</Link>
                     <Link to="/Games" className={navLinkClass}>Games</Link>
+                    {user && <Link to="/purchase-history" className={navLinkClass}>My Purchases</Link>}
+                    {user ? (
+                        <button onClick={handleLogout} className={navLinkClass + " text-red-600 hover:text-white hover:bg-red-600"}>Logout</button>
+                    ) : (
+                        <Link to="/auth" className={navLinkClass + " text-green-600 hover:text-white hover:bg-green-600"}>Login</Link>
+                    )}
                     <Link to="/cart" className="relative px-4 py-2 rounded-full text-sm font-medium text-gray-800 transition-all duration-300 hover:bg-white/40 hover:text-black hover:shadow-sm hover:backdrop-blur-lg">
                         <ShoppingCart size={20} />
                         {cartQuantity > 0 && (
@@ -61,6 +93,12 @@ export default function Navbar() {
                         <Link to="/about" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">About</Link>
                         <Link to="/contact" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Contact</Link>
                         <Link to="/games" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Games</Link>
+                        {user && <Link to="/purchase-history" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">My Purchases</Link>}
+                        {user ? (
+                            <button onClick={handleLogout} className="block px-4 py-3 rounded-xl hover:bg-red-600 hover:text-white text-red-600 font-medium transition-colors">Logout</button>
+                        ) : (
+                            <Link to="/auth" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-green-600 hover:text-white text-green-600 font-medium transition-colors">Login</Link>
+                        )}
                         <Link to="/cart" onClick={() => setIsOpen(false)} className="relative block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors flex items-center gap-2">
                             <ShoppingCart size={20} />
                             Cart

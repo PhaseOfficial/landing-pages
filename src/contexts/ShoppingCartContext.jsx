@@ -90,6 +90,16 @@ export const ShoppingCartProvider = ({ children }) => {
     return total + (isNaN(itemPrice) ? 0 : itemPrice * item.quantity);
   }, 0);
 
+  const setCartItemsFromInvoice = (items) => {
+    const newCart = items.map(item => ({
+      ...item,
+      id: item.id || uuidv4(), 
+      uniqueId: item.uniqueId || item.id, 
+      quantity: item.quantity || 1 
+    }));
+    setCartItems(newCart);
+  };
+
   return (
     <ShoppingCartContext.Provider
       value={{
@@ -100,6 +110,7 @@ export const ShoppingCartProvider = ({ children }) => {
         increaseQuantity,
         decreaseQuantity,
         clearCart,
+        setCartItemsFromInvoice, // <--- Add this
         cartQuantity,
         cartTotal,
       }}

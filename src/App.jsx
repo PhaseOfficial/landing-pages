@@ -12,7 +12,9 @@ import StorePage from "./pages/StorePage";
 import CartPage from "./pages/CartPage";
 import AuthPage from "./pages/AuthPage";
 import CheckoutPage from "./pages/CheckoutPage";
-import PaymentSuccessPage from "./pages/PaymentSuccessPage"; // Placeholder, will create later
+import PaymentSuccessPage from "./pages/PaymentSuccessPage"; 
+import PaymentResponse from "./pages/PaymentResponse"; // Import PaymentResponse
+import PurchaseHistory from "./pages/PurchaseHistory"; // Import PurchaseHistory
 import AIChatWidget from "./components/AIChatWidget";
 
 const tagManagerArgs = {
@@ -37,7 +39,9 @@ const App = () => {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/payment-response" element={<PaymentResponse />} />
         <Route path="/payment-success" element={<PaymentSuccessPage />} />
+        <Route path="/purchase-history" element={<PurchaseHistory />} />
       </Routes>
         <AIChatWidget />
     </div>

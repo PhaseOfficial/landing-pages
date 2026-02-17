@@ -1,77 +1,179 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom'; // Add useNavigate
 import Navbar from '../components/Navbar';
 import Footer from '../components/footer';
 import { CheckCircle2, XCircle, Loader2 } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
 import axios from 'axios';
 
+// Admin email for notifications (TODO: Replace with actual email, ideally from env)
+const ADMIN_EMAIL = 'admin@example.com'; 
+
 const PaymentResponse = () => {
   const location = useLocation();
+  const navigate = useNavigate(); // Initialize useNavigate
   const [paymentStatus, setPaymentStatus] = useState('pending'); // 'pending', 'success', 'failed'
   const [message, setMessage] = useState('Processing your payment...');
-  const [clientReference, setClientReference] = useState(null); // To store and potentially update order in DB
+  const [clientReference, setClientReference] = useState(null); 
+  const [user, setUser] = useState(null); // Add user state
+
+  // Effect for user authentication
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        // User not logged in, redirect to login page
+        navigate('/auth'); 
+      } else {
+        setUser(session.user);
+      }
+    };
+    checkUser();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        setUser(session.user);
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, [navigate]);
 
   useEffect(() => {
+    // ... existing logic ...
     const queryParams = new URLSearchParams(location.search);
-    const ref = queryParams.get('clientReference'); // This is usually passed back by Clicknpay
+    const ref = queryParams.get('clientReference'); 
 
-    if (ref) {
+    if (ref && user) { // Only verify payment if user is loaded
       setClientReference(ref);
-      verifyPayment(ref);
-    } else {
-      setPaymentStatus('failed');
-      setMessage('Payment verification failed: No client reference found.');
+      verifyPayment(ref, user); // Pass user to verifyPayment
+    } else if (!user) {
+        // If user is not logged in, wait for user effect to redirect
+        // Or if ref is missing, set failed status
+        if (!ref) {
+            setPaymentStatus('failed');
+            setMessage('Payment verification failed: No client reference found.');
+        }
     }
-  }, [location.search]);
+  }, [location.search, user]); // Add user to dependencies
 
-  const verifyPayment = async (ref) => {
+  const sendEmailNotification = async (emailDetails) => {
     try {
-      // In a real application, you would make a secure backend call to verify the payment
-      // with Clicknpay using their API, passing the clientReference.
-      // For this example, we'll simulate a verification.
+      const { data, error } = await supabase.functions.invoke('send_email', {
+        body: emailDetails,
+      });
+      if (error) throw error;
+      if (!data.success) throw new Error(data.message || 'Failed to send email.');
+      console.log('Email sent successfully:', data.message);
+    } catch (err) {
+      console.error('Error sending email notification:', err.message);
+      // Do not block the main payment flow if email sending fails
+    }
+  };
 
-      // Simulate API call to your backend or directly to Clicknpay (less secure client-side)
-      // The WEBRCS example doesn't show explicit verification in PaymentResponse.jsx,
-      // implying it might be handled server-side or on a subsequent user action.
-      // For a robust solution, a server-side endpoint would be ideal to prevent tampering.
+  const verifyPayment = async (ref, user) => { // Accept user as parameter
+    try {
+      // 1. Fetch status directly from ClicknPay
+      const clicknPayUrl = `https://backendservices.clicknpay.africa:2081/payme/orders/top-paid/${encodeURIComponent(ref)}`;
+      const gatewayResponse = await fetch(clicknPayUrl, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      });
 
-      // For demonstration, let's assume successful verification for now
-      // In a real app:
-      // const response = await axios.post('/api/verify-clicknpay', { clientReference: ref });
-      // if (response.data.status === 'success') {
-      //    setPaymentStatus('success');
-      //    setMessage('Your payment was successful!');
-      //    // Update order status in Supabase using clientReference
-      // } else {
-      //    setPaymentStatus('failed');
-      //    setMessage(response.data.message || 'Payment verification failed.');
-      // }
+      if (!gatewayResponse.ok) {
+        throw new Error(`ClicknPay API returned status ${gatewayResponse.status}`);
+      }
+      const gatewayData = await gatewayResponse.json();
 
-      // --- SIMULATION START ---
-      setTimeout(async () => {
-        // Simulate a database update for the order associated with clientReference
-        // In a real app, you'd have an 'orders' table with clientReference
-        // const { data, error } = await supabase
-        //   .from('orders')
-        //   .update({ status: 'completed', payment_ref: ref })
-        //   .eq('client_reference_id', ref);
+      let displayStatus = 'Unknown';
+      const statusUpper = gatewayData.status ? gatewayData.status.toUpperCase() : 'UNKNOWN';
 
-        // if (error) {
-        //   console.error("Error updating order status:", error.message);
-        //   setPaymentStatus('failed');
-        //   setMessage('Payment successful, but order update failed. Please contact support.');
-        // } else {
-          setPaymentStatus('success');
-          setMessage('Your payment was successful!');
-        // }
-      }, 2000); // Simulate 2-second verification delay
-      // --- SIMULATION END ---
+      if (statusUpper === 'SUCCESS' || statusUpper === 'PAID') {
+        displayStatus = 'Paid';
+      } else if (statusUpper === 'FAILED') {
+        displayStatus = 'Failed';
+      } else if (statusUpper === 'PENDING') {
+        displayStatus = 'Pending';
+      }
+
+      // 2. Display status on frontend
+      setPaymentStatus(displayStatus === 'Paid' ? 'success' : 'failed');
+      setMessage(`Payment ${displayStatus.toLowerCase()}!`);
+
+      // 3. Directly update database from client-side
+      const { data, error } = await supabase
+        .from('invoices')
+        .update({ 
+          status: displayStatus, 
+          updated_at: new Date() 
+        })
+        .eq('id', ref); // Use ref (clientReference) to identify the invoice
+
+      if (error) {
+        console.error("Error updating database from client:", error.message);
+        setMessage(prev => prev + " (Database update failed)");
+        setPaymentStatus('failed'); // Critical failure: set to failed
+        // Send email on DB update failure (client side)
+        await sendEmailNotification({ // Await to ensure emails are sent before finishing
+          recipient: user?.email, // Assuming user is available from context
+          subject: `Payment Failed & DB Update Failed - Reference: ${ref}`,
+          body_html: `<p>Dear ${user?.email},</p><p>Your payment for reference ${ref} failed and we also encountered an issue updating your payment status in our records.</p><p>Please contact support for assistance.</p>`,
+          body_text: `Dear ${user?.email},\nYour payment for reference ${ref} failed and we also encountered an issue updating your payment status in our records.\nPlease contact support for assistance.`,
+          is_admin_notification: false,
+        });
+        await sendEmailNotification({ // Await to ensure emails are sent before finishing
+          recipient: ADMIN_EMAIL,
+          subject: `ADMIN ALERT: Payment Failed & DB Update Failed - Reference: ${ref}`,
+          body_html: `<p>A client payment for reference ${ref} failed, and the database update also failed. Client email: ${user?.email}.</p>`,
+          body_text: `ADMIN ALERT: A client payment for reference ${ref} failed, and the database update also failed. Client email: ${user?.email}.`,
+          is_admin_notification: true,
+          admin_email: ADMIN_EMAIL,
+        });
+      } else {
+        // If DB update is successful, we can finalize the message if needed.
+        // For example, if displayStatus was 'Pending' and DB update confirms it,
+        // message remains 'Payment pending!'.
+
+        // Send emails based on displayStatus
+        if (displayStatus === 'Paid') {
+          // Send success email to client
+          await sendEmailNotification({ // Await to ensure emails are sent before finishing
+            recipient: user?.email,
+            subject: `Payment Successful - Reference: ${ref}`,
+            body_html: `<p>Dear ${user?.email},</p><p>Your payment for reference ${ref} was successful! Thank you for your purchase.</p><p>You can view your purchase history <a href="${window.location.origin}/purchase-history">here</a>.</p>`,
+            body_text: `Dear ${user?.email},\nYour payment for reference ${ref} was successful! Thank you for your purchase.\nYou can view your purchase history at ${window.location.origin}/purchase-history.`,
+            is_admin_notification: false,
+          });
+          // Send success email to admin
+          await sendEmailNotification({ // Await to ensure emails are sent before finishing
+            recipient: ADMIN_EMAIL,
+            subject: `ADMIN ALERT: Payment Successful - Reference: ${ref}`,
+            body_html: `<p>A client payment for reference ${ref} was successful. Client email: ${user?.email}.</p>`,
+            body_text: `ADMIN ALERT: A client payment for reference ${ref} was successful. Client email: ${user?.email}.`,
+            is_admin_notification: true,
+            admin_email: ADMIN_EMAIL,
+          });
+        } else if (displayStatus === 'Failed') {
+          // Send failure email to client
+          await sendEmailNotification({ // Await to ensure emails are sent before finishing
+            recipient: user?.email,
+            subject: `Payment Failed - Reference: ${ref}`,
+            body_html: `<p>Dear ${user?.email},</p><p>Your payment for reference ${ref} failed. Please try again or contact support.</p><p>You can review your purchases <a href="${window.location.origin}/purchase-history">here</a>.</p>`,
+            body_text: `Dear ${user?.email},\nYour payment for reference ${ref} failed. Please try again or contact support.\nYou can review your purchases at ${window.location.origin}/purchase-history.`,
+            is_admin_notification: false,
+          });
+        }
+        // No email for 'Pending' unless specifically requested
+      }
 
     } catch (error) {
       console.error("Error during payment verification:", error);
       setPaymentStatus('failed');
-      setMessage('An error occurred during payment verification. Please contact support.');
+      setMessage(`An error occurred during payment verification: ${error.message}. Please contact support.`);
     }
   };
 
@@ -103,11 +205,9 @@ const PaymentResponse = () => {
             <XCircle size={60} className="mx-auto text-red-500 mb-6" />
             <h2 className="text-3xl font-bold text-gray-800 mb-3">Payment Failed</h2>
             <p className="text-gray-600 mb-8">{message}</p>
-            <Link to="/cart" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
-              Review Cart
-            </Link>
-            <Link to="/checkout" className="mt-4 bg-gradient-to-r from-red-600 to-orange-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-y-1 transition-all duration-300">
-              Try Checkout Again
+
+            <Link to="/purchase-history" className="mt-4 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-y-1 transition-all duration-300">
+              Review My Purchases
             </Link>
           </div>
         )}
