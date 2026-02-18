@@ -13,7 +13,8 @@ serve(async (req) => {
   }
 
   try {
-    const { recipient, subject, body_html, body_text, is_admin_notification, admin_email } = await req.json()
+    // Add attachments to the destructuring
+    const { recipient, subject, body_html, body_text, is_admin_notification, admin_email, attachments } = await req.json()
 
     if (!recipient || !subject || (!body_html && !body_text)) {
       throw new Error('Missing required email parameters: recipient, subject, body_html/body_text.')
@@ -41,6 +42,7 @@ serve(async (req) => {
       subject: subject,
       html: body_html,
       text: body_text,
+      attachments: attachments || [], // Add attachments array
     };
 
     const resendResponse = await fetch('https://api.resend.com/emails', {

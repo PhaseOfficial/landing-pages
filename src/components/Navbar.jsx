@@ -62,7 +62,7 @@ export default function Navbar() {
                     {user ? (
                         <button onClick={handleLogout} className={navLinkClass + " text-red-600 hover:text-white hover:bg-red-600"}>Logout</button>
                     ) : (
-                        <Link to="/auth" className={navLinkClass + " text-green-600 hover:text-white hover:bg-green-600"}>Login</Link>
+                        <Link to="/auth" className={navLinkClass + " text-green-600 hover:text-black hover:bg-green-600"}>Login</Link>
                     )}
                     <Link to="/cart" className="relative px-4 py-2 rounded-full text-sm font-medium text-gray-800 transition-all duration-300 hover:bg-white/40 hover:text-black hover:shadow-sm hover:backdrop-blur-lg">
                         <ShoppingCart size={20} />

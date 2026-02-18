@@ -217,10 +217,7 @@ const Exploreprod = () => {
                 >
                     <ShoppingBag className="text-8xl text-red-800/80 mb-6 drop-shadow-sm" />
                     <h3 className="text-xl font-bold mb-3 text-foreground">Official Merchandise</h3>
-                    <p className="text-muted-foreground text-sm mb-6 max-w-xs mx-auto">
-                        Exclusive drops and limited runs. Explore products selected with one thing in mind: Quality.
-                    </p>
-                    <a href="#" className="mt-auto inline-block bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-all py-3 px-8 rounded-full font-medium shadow-md">
+                    <a href="/Store" className="mt-auto inline-block bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-all py-3 px-8 rounded-full font-medium shadow-md">
                         Shop Now
                     </a>
                 </motion.div>
@@ -235,9 +232,7 @@ const Exploreprod = () => {
                     <p className="text-muted-foreground text-sm mb-6 max-w-xs mx-auto">
                         A marketplace of trusted partners. View listings from brands that match our standard of excellence.
                     </p>
-                    <a href="#" className="mt-auto inline-block bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-all py-3 px-8 rounded-full font-medium shadow-md">
-                        View Directory
-                    </a>
+
                 </motion.div>
 
                  {/* Collaborate */}
@@ -247,10 +242,7 @@ const Exploreprod = () => {
                 >
                     <Sparkles className="text-8xl text-red-800/80 mb-6 drop-shadow-sm" />
                     <h3 className="text-xl font-bold mb-3 text-foreground">Strategic Partners</h3>
-                    <p className="text-muted-foreground text-sm mb-6 max-w-xs mx-auto">
-                        Do you refuse to compromise on quality? Let's build something remarkable together.
-                    </p>
-                    <a href="#" className="mt-auto inline-block bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-all py-3 px-8 rounded-full font-medium shadow-md">
+                    <a href="/Contact" className="mt-auto inline-block bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-all py-3 px-8 rounded-full font-medium shadow-md">
                         Collaborate
                     </a>
                 </motion.div>
