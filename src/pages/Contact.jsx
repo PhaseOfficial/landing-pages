@@ -3,11 +3,16 @@ import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/footer";
 import ContactForm from "../components/ContactForm"; 
+import SEO from "../components/SEO";
 import { Mail, Phone, MapPin, Clock, ArrowRight } from "lucide-react";
 
 const ContactUs = () => {
   return (
     <div className="min-h-screen font-sans selection:bg-red-500 selection:text-white">
+      <SEO 
+        title="Contact Us" 
+        description="Get in touch with Red Cup Series. Call, email, or visit us in Harare. We are ready to start a conversation about your next project."
+      />
       <Navbar />
       
       {/* === HEADER SECTION === */}

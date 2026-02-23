@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/footer';
 import { motion } from 'framer-motion';
 import Contactus from '../components/Contactus';
+import SEO from '../components/SEO';
 import { cn } from '../lib/utils'; // Ensure you have this, or remove cn() usage if not
 
 // Icons
@@ -68,6 +69,10 @@ const About = () => {
 
   return (
     <div className="min-h-screen font-sans transition-colors duration-300  text-gray-900">
+      <SEO 
+        title="About Us" 
+        description="Learn about Red Cup Series, our mission, vision, and the team driving innovation in Zimbabwe's tech and gaming landscape."
+      />
       <Navbar />
 
       {/* === HERO SECTION === */}

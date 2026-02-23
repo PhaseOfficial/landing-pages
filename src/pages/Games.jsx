@@ -1,10 +1,15 @@
 import Navbar from "../components/Navbar";
 import GameThumbnails from "../components/Gameslist";
 import Footer from "../components/footer";
+import SEO from "../components/SEO";
 
 function App() {
   return (
     <div className="min-h-screen flex mt-16 flex-col">
+      <SEO 
+        title="Games" 
+        description="Play classic and modern web games hosted on Red Cup Series. Enjoy a curated library of games for maximum speed and fun."
+      />
       <Navbar />
 
       <main className="flex-grow container mx-auto px-4 py-12">

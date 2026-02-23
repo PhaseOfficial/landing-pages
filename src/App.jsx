@@ -16,6 +16,7 @@ import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import PaymentResponse from "./pages/PaymentResponse"; // Import PaymentResponse
 import PurchaseHistory from "./pages/PurchaseHistory"; // Import PurchaseHistory
 import AIChatWidget from "./components/AIChatWidget";
+import CartWidget from "./components/CartWidget";
 
 const tagManagerArgs = {
   gtmId: 'GTM-PKXK7LPV', // Replace with your GTM ID
@@ -44,6 +45,7 @@ const App = () => {
         <Route path="/purchase-history" element={<PurchaseHistory />} />
       </Routes>
         <AIChatWidget />
+        <CartWidget />
     </div>
   );
 };

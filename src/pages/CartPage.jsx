@@ -4,6 +4,7 @@ import Footer from '../components/footer';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 import { Link } from 'react-router-dom';
 import { XCircle, PlusCircle, MinusCircle, ShoppingCart as ShoppingCartIcon } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const CartPage = () => {
   const { cartItems, removeItem, increaseQuantity, decreaseQuantity, cartTotal, clearCart } = useShoppingCart();
@@ -11,6 +12,10 @@ const CartPage = () => {
   if (cartItems.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 font-sans flex flex-col">
+        <SEO 
+            title="Shopping Cart" 
+            description="Your shopping cart is currently empty."
+        />
         <Navbar />
         <div className="flex-grow flex items-center justify-center py-20 px-4">
           <div className="text-center bg-white/70 backdrop-blur-md p-10 rounded-2xl shadow-xl border border-white/50 max-w-md w-full">
@@ -29,6 +34,10 @@ const CartPage = () => {
 
   return (
     <div className="min-h-screen mt-16 font-sans flex flex-col">
+      <SEO 
+        title="Shopping Cart" 
+        description="Review your items and proceed to checkout at Red Cup Series Store."
+      />
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow">

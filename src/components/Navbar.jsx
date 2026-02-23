@@ -99,15 +99,6 @@ export default function Navbar() {
                         ) : (
                             <Link to="/auth" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-green-600 hover:text-white text-green-600 font-medium transition-colors">Login</Link>
                         )}
-                        <Link to="/cart" onClick={() => setIsOpen(false)} className="relative block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors flex items-center gap-2">
-                            <ShoppingCart size={20} />
-                            Cart
-                            {cartQuantity > 0 && (
-                                <span className="ml-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                                    {cartQuantity}
-                                </span>
-                            )}
-                        </Link>
                     </div>
                 </div>
             )}

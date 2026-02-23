@@ -2,6 +2,7 @@ import { useState } from 'react';
 import RevealSection from '../components/RevealSection';
 import Navbar from '../components/Navbar';
 import Footer from '../components/footer';
+import SEO from '../components/SEO';
 
 const Services = () => {
   const [expandedSections, setExpandedSections] = useState({
@@ -29,6 +30,10 @@ const Services = () => {
 
   return (
     <div className=''>
+      <SEO 
+        title="Our Services" 
+        description="Explore our professional services: Mobile App Development, Graphic Design, AI Solutions, Digital Marketing, Web Development, and Product Sourcing."
+      />
       <Navbar />
       
       {/* Header */}

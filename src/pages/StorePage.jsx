@@ -5,6 +5,7 @@ import Footer from '../components/footer';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Search, CheckCircle2, ImageOff, Shirt, Briefcase } from 'lucide-react';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
+import SEO from '../components/SEO';
 
 // --- SERVICE ICON COMPONENT ---
 const ServiceIcon = ({ category }) => {
@@ -173,6 +174,10 @@ const Store = () => {
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 font-sans">
+      <SEO 
+        title="Store" 
+        description="Shop for premium clothing and professional digital services at the Red Cup Series Store. Mobile apps, graphic design, and fashion."
+      />
       <Navbar />
 
       <div className="relative pt-32 pb-12 text-center px-4">

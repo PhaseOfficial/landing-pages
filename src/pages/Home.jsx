@@ -6,10 +6,12 @@ import Contactus from '../components/Contactus';
 import Footer from '../components/footer';
 import Companies from '../components/companies';
 //import Testimonials from '../components/Testimonials';
+import SEO from '../components/SEO';
 
 export default function Home() {
     return (
         <div>
+            <SEO />
             <Navbar />
             
             <HeroSection className="mt-20"/>
