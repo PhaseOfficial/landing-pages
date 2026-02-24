@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import defaultImage from '../assets/weblogo.png';
+import defaultImage from '../assets/weblogo.png'; // Fallback for local dev
+const buildAssetImage = '/assets/weblogo-CCEv4uPZ.png';
 
 const SEO = ({ title, description, keywords, image, url }) => {
     const siteTitle = "Red Cup Series";
@@ -9,7 +10,7 @@ const SEO = ({ title, description, keywords, image, url }) => {
     const siteUrl = "https://www.redcupseries.co.zw";
     
     // Construct absolute image URL if it's a relative path/import
-    const metaImage = image || defaultImage;
+    const metaImage = image || buildAssetImage;
     const isAbsoluteUrl = (path) => path?.startsWith('http');
     const imageUrl = isAbsoluteUrl(metaImage) ? metaImage : `${siteUrl}${metaImage}`;
 

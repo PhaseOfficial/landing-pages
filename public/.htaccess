@@ -1,0 +1,24 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. EXCLUDE the blog directory from React's SPA routing
+  # This allows the .htaccess inside /blog/ to take over
+  RewriteRule ^blog($|/) - [L]
+
+  # 2. Serve dynamic sitemap
+  RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+  # 3. Standard React SPA Routing
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+  RewriteRule . /index.html [L]
+
+  # 3. SECURITY: Deny access to .env files
+  <Files ".env">
+    Order allow,deny
+    Deny from all
+  </Files>
+</IfModule>

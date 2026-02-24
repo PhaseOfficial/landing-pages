@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Direct Google to your dynamic sitemap
+Sitemap: https://www.redcupseries.co.zw/sitemap.xml

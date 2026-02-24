@@ -57,6 +57,7 @@ export default function Navbar() {
                     <Link to="/Services" className={navLinkClass}>Services</Link>
                     <Link to="/About" className={navLinkClass}>About</Link>
                     <Link to="/Contact" className={navLinkClass}>Contact</Link>
+                    <a href="/blog" className={navLinkClass}>Blog</a>
                     <Link to="/Games" className={navLinkClass}>Games</Link>
                     {user && <Link to="/purchase-history" className={navLinkClass}>My Purchases</Link>}
                     {user ? (
@@ -92,6 +93,7 @@ export default function Navbar() {
                         <Link to="/services" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Services</Link>
                         <Link to="/about" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">About</Link>
                         <Link to="/contact" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Contact</Link>
+                        <a href="/blog" className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Blog</a>
                         <Link to="/games" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Games</Link>
                         {user && <Link to="/purchase-history" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">My Purchases</Link>}
                         {user ? (
