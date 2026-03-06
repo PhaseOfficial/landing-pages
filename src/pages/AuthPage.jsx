@@ -14,15 +14,32 @@ const AuthPage = () => {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
+  // Redirect if user is already logged in
+  React.useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const redirectTo = localStorage.getItem('redirectTo') || '/';
+        localStorage.removeItem('redirectTo');
+        navigate(redirectTo);
+      }
+    };
+    checkSession();
+  }, [navigate]);
+
   // --- NEW: Google Login Handler ---
   const handleGoogleLogin = async () => {
     try {
       setLoading(true);
       setError('');
+      
+      const redirectToPath = localStorage.getItem('redirectTo') || '/';
+      const redirectUrl = `${window.location.origin}${redirectToPath}`;
+      
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin, // Redirects back to your home page
+          redirectTo: redirectUrl, // Redirects back to the intended page
         },
       });
       if (error) throw error;

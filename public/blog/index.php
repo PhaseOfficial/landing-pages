@@ -165,11 +165,12 @@ $image = $post ? $post['featured_image'] : "https://www.redcupseries.co.zw/asset
             display: flex; flex-direction: column; align-items: center;
             padding-top: 20px; z-index: 1000;
             pointer-events: none;
+            padding-left: 16px; padding-right: 16px;
         }
 
         .navbar {
             pointer-events: auto;
-            width: 90%; max-width: 1000px;
+            width: 100%; max-width: 1000px;
             background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(24px) saturate(150%);
             border: 1px solid rgba(255,255,255,0.2);

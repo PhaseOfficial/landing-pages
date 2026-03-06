@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -18,6 +18,10 @@ import PurchaseHistory from "./pages/PurchaseHistory"; // Import PurchaseHistory
 import AIChatWidget from "./components/AIChatWidget";
 import CartWidget from "./components/CartWidget";
 
+import { trackVisit } from "./utils/trackVisit";
+import { registerVisitor } from "./utils/registerVisitor";
+import { setupAnalyticsListeners } from "./utils/analyticsListener";
+
 const tagManagerArgs = {
   gtmId: 'GTM-PKXK7LPV', // Replace with your GTM ID
 };
@@ -26,8 +30,16 @@ TagManager.initialize(tagManagerArgs);
 
 
 const App = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    trackVisit();
+    registerVisitor();
+    setupAnalyticsListeners();
+  }, [location.pathname]); // Re-run visit tracking on route change
+
   return (
-    <div className="p-4">
+    <div>
 
       <Routes >
         <Route path="/" element={<Home />} />

@@ -40,7 +40,7 @@ export default function Navbar() {
 
     return (
         // Wrapper to center and float the navbar
-        <div className="fixed top-0 w-full z-50 flex flex-col items-center pt-4 px-4 pointer-events-none">
+        <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pt-4 px-4 pointer-events-none">
             
             {/* The Glass Bar (Pointer events auto enables clicking inside) */}
             <nav className="pointer-events-auto w-full max-w-5xl bg-white/30 backdrop-blur-xl backdrop-saturate-150 border border-white/20 shadow-2xl rounded-2xl px-6 py-3 flex items-center justify-between transition-all duration-300">
@@ -87,14 +87,14 @@ export default function Navbar() {
             {/* Mobile Menu Dropdown (Floating Glass Card) */}
             {isOpen && (
                 <div className="pointer-events-auto md:hidden mt-2 w-full max-w-5xl bg-white/40 backdrop-blur-2xl border border-white/30 shadow-2xl rounded-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300">
-                    <div className="flex flex-col p-4 space-y-2">
+                    <div className="flex flex-col p-4 space-y-2 text-center">
                         <Link to="/" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Home</Link>
-                        <Link to="/store" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Shop</Link>
-                        <Link to="/services" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Services</Link>
-                        <Link to="/about" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">About</Link>
-                        <Link to="/contact" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Contact</Link>
+                        <Link to="/Store" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Shop</Link>
+                        <Link to="/Services" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Services</Link>
+                        <Link to="/About" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">About</Link>
+                        <Link to="/Contact" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Contact</Link>
                         <a href="/blog" className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Blog</a>
-                        <Link to="/games" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Games</Link>
+                        <Link to="/Games" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">Games</Link>
                         {user && <Link to="/purchase-history" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-white/50 text-gray-900 font-medium transition-colors">My Purchases</Link>}
                         {user ? (
                             <button onClick={handleLogout} className="block px-4 py-3 rounded-xl hover:bg-red-600 hover:text-white text-red-600 font-medium transition-colors">Logout</button>
