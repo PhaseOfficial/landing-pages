@@ -47,7 +47,7 @@ export default function HeroSection() {
         <section className="relative flex flex-col md:flex-row items-center mb-20 justify-center min-h-screen-0 bg-background text-primary pb-12">
             <div className="w-full md:w-1/2 p-4 sm:p-6 md:p-8">
                 <h1 className="mb-4 flex justify-center">
-                    <img src={weblogo} alt="logo" className="logo-home " />
+                    <img src={weblogo} alt="logo" className="logo-home  md:w-1/2 mt-16" />
                 </h1>
                 
                 {/* Typewriter Text Container */}

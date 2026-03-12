@@ -15,10 +15,10 @@ function App() {
       <main className="flex-grow container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <h1 className="text-5xl font-black text-slate-900 mb-4 tracking-tight">
-            RED CUP SERIES<span className="text-blue-600">GAMES</span>
+            RED CUP SERIES<span className="text-blue-600">ARCADE</span>
           </h1>
           <p className="text-gray-600 text-lg">
-            A curated library of classic and modern web games. 
+            A curated library of classic and modern web arcade games. 
             All games are hosted on our dedicated subdomain for maximum speed.
           </p>
         </div>
